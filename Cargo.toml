@@ -1,4 +1,14 @@
-[workspace]
-members = [
-  "namumark_parser"
-]
+[package]
+name = "namumark"
+version = "0.1.0"
+authors = ["Danuel <public.danuel@gmail.com>"]
+description = "Namumark"
+edition = "2018"
+documentation = "https://docs.rs/namumark"
+repository = "https://github.com/danue1/namumark"
+readme = "README.md"
+keywords = ["markup","parser","nom"]
+license = "MIT"
+
+[dependencies]
+namumark_parser = "0.1.0"

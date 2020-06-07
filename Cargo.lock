@@ -42,6 +42,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3728d817d99e5ac407411fa471ff9800a778d88a24685968b36824eaf4bee400"
 
 [[package]]
+name = "namumark"
+version = "0.1.0"
+dependencies = [
+ "namumark_parser",
+]
+
+[[package]]
 name = "namumark_parser"
 version = "0.1.0"
 dependencies = [

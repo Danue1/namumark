@@ -2,7 +2,13 @@
 name = "namumark_parser"
 version = "0.1.0"
 authors = ["Danuel <public.danuel@gmail.com>"]
+description = "Namumark"
 edition = "2018"
+documentation = "https://docs.rs/namumark"
+repository = "https://github.com/danue1/namumark"
+readme = "README.md"
+keywords = ["markup","parser","nom"]
+license = "MIT"
 
 [dependencies]
 nom = "5.1.1"
