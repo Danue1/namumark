@@ -5,7 +5,7 @@ mod size_down;
 mod size_up;
 mod syntax_highlight;
 
-use crate::{Color, MultilineBlock, Result, SizeLevel, Span};
+use crate::{Color, FontSizeLevel, MultilineBlock, Result, Span};
 use color::color;
 use folding::folding;
 use inline::inline;
@@ -21,8 +21,8 @@ pub enum BracketSpan {
   Color(Vec<Span>, Color),
   Folding(Vec<MultilineBlock>),
   Inline(String),
-  SizeDown(Vec<Span>, SizeLevel),
-  SizeUp(Vec<Span>, SizeLevel),
+  SizeDown(Vec<Span>, FontSizeLevel),
+  SizeUp(Vec<Span>, FontSizeLevel),
   SyntaxHighlight(String, String),
 }
 

@@ -53,7 +53,7 @@ pub enum Alignment {
 }
 
 #[derive(Debug, PartialEq)]
-pub enum SizeLevel {
+pub enum FontSizeLevel {
   One,
   Two,
   Three,
@@ -69,9 +69,9 @@ pub enum Color {
   Raw(String),
 }
 
-impl From<usize> for SizeLevel {
-  fn from(source: usize) -> SizeLevel {
-    use SizeLevel::*;
+impl From<usize> for FontSizeLevel {
+  fn from(source: usize) -> FontSizeLevel {
+    use FontSizeLevel::*;
 
     match source {
       1 => One,
@@ -84,9 +84,9 @@ impl From<usize> for SizeLevel {
   }
 }
 
-impl From<&SizeLevel> for usize {
-  fn from(source: &SizeLevel) -> Self {
-    use SizeLevel::*;
+impl From<&FontSizeLevel> for usize {
+  fn from(source: &FontSizeLevel) -> Self {
+    use FontSizeLevel::*;
 
     match source {
       One => 1,

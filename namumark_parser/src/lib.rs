@@ -10,8 +10,8 @@ pub use block::{
 use constants::EMPTY;
 use span::span_list;
 pub use span::{
-  Alignment, BracketSpan, Color, CommandSpan, ImageOption, MacroSpan, RubyOption, SemanticSpan,
-  Size, SizeLevel, Span, VideoOption, VideoPlatform,
+  Alignment, BracketSpan, Color, CommandSpan, FontSizeLevel, ImageOption, MacroSpan, RubyOption,
+  SemanticSpan, Size, Span, VideoOption, VideoPlatform,
 };
 use utils::{
   line, line_with_bracket, linebreak, pipeline, should_be_empty, whitespace, whitespace1,

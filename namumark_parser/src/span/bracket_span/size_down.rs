@@ -37,7 +37,7 @@ mod tests {
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeDown(
         vec![Span::Inline("Danuel".to_owned())],
-        SizeLevel::One
+        FontSizeLevel::One
       ))]
     );
   }
@@ -49,7 +49,7 @@ mod tests {
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeDown(
         vec![Span::Inline("Danuel".to_owned())],
-        SizeLevel::Two
+        FontSizeLevel::Two
       ))]
     );
   }
@@ -61,7 +61,7 @@ mod tests {
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeDown(
         vec![Span::Inline("Danuel".to_owned())],
-        SizeLevel::Three
+        FontSizeLevel::Three
       ))]
     );
   }
@@ -73,7 +73,7 @@ mod tests {
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeDown(
         vec![Span::Inline("Danuel".to_owned())],
-        SizeLevel::Four
+        FontSizeLevel::Four
       ))]
     );
   }
@@ -85,7 +85,7 @@ mod tests {
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeDown(
         vec![Span::Inline("Danuel".to_owned())],
-        SizeLevel::Five
+        FontSizeLevel::Five
       ))]
     );
   }
