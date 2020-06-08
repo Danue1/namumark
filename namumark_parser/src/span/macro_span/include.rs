@@ -7,21 +7,21 @@ use nom::{
 
 // TODO(Danuel): value 문법 확인 후 구현 추가 필요
 pub(crate) fn include(input: &str) -> Result<MacroSpan> {
-  let (input, _) = start(input)?;
-  let (input, _) = end(input)?;
+  let (input, _) = identifier(input)?;
+  let (input, _) = parens(input)?;
   let (_, namespace) = namespace(input)?;
   let span = MacroSpan::Include(namespace.to_owned());
 
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
+fn identifier(input: &str) -> Result {
   let (input, _) = tag("include")(input)?;
 
   Ok((input, ()))
 }
 
-fn end(input: &str) -> Result {
+fn parens(input: &str) -> Result {
   let (input, _) = char('(')(input)?;
   let (end_input, input) = take_till(|character| character == ')')(input)?;
   let _ = all_consuming(char(')'))(end_input)?;

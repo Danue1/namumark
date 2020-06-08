@@ -1,14 +1,14 @@
 use crate::{MacroSpan, Result, RubyOption, EMPTY};
 use nom::{
   branch::alt,
-  bytes::complete::{tag, take_till, take_until},
+  bytes::complete::{tag, take_till},
   character::complete::char,
   combinator::{all_consuming, opt},
 };
 
 pub(crate) fn ruby(input: &str) -> Result<MacroSpan> {
-  let (input, _) = start(input)?;
-  let (input, _) = end(input)?;
+  let (input, _) = identifier(input)?;
+  let (input, _) = parens(input)?;
   if let Ok((input, word)) = word(input) {
     if let Ok((_, ruby_option)) = ruby_option(input) {
       let span = MacroSpan::Ruby(Some((word.to_owned(), ruby_option)));
@@ -22,14 +22,15 @@ pub(crate) fn ruby(input: &str) -> Result<MacroSpan> {
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
-  let (input, _) = tag("ruby(")(input)?;
+fn identifier(input: &str) -> Result {
+  let (input, _) = tag("ruby")(input)?;
 
   Ok((input, ()))
 }
 
-fn end(input: &str) -> Result {
-  let (end_input, input) = take_until(")")(input)?;
+fn parens(input: &str) -> Result {
+  let (input, _) = char('(')(input)?;
+  let (end_input, input) = take_till(|character| character == ')')(input)?;
   let _ = all_consuming(char(')'))(end_input)?;
 
   Ok((input, ()))

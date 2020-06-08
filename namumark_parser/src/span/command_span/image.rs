@@ -3,7 +3,7 @@ use nom::bytes::complete::{tag, take_till};
 
 // TODO(Danuel): [[:파일:]] 문법 추가 필요
 pub(crate) fn image(input: &str) -> Result<CommandSpan> {
-  let (input, _) = start(input)?;
+  let (input, _) = identifier(input)?;
   let (input, url) = url(input)?;
   let option = option(input);
   let span = CommandSpan::Image(url.to_owned(), option);
@@ -11,7 +11,7 @@ pub(crate) fn image(input: &str) -> Result<CommandSpan> {
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
+fn identifier(input: &str) -> Result {
   let (input, _) = tag("파일:")(input)?;
 
   Ok((input, ()))

@@ -7,15 +7,15 @@ use nom::{
 };
 
 pub(crate) fn video(input: &str) -> Result<CommandSpan> {
-  let (input, platform) = start(input)?;
-  let (input, _) = end(input)?;
+  let (input, platform) = identifier(input)?;
+  let (input, _) = parens(input)?;
   let (url, option) = center(input, platform)?;
   let span = CommandSpan::Video(url.to_owned(), option);
 
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result<VideoPlatform> {
+fn identifier(input: &str) -> Result<VideoPlatform> {
   macro_rules! platform {
     ($identifier:expr, $name:ident, $variant:ident) => {
       let $name = |input| {
@@ -65,7 +65,7 @@ fn center(input: &str, platform: VideoPlatform) -> Result<VideoOption> {
   Ok((url, option))
 }
 
-fn end(input: &str) -> Result {
+fn parens(input: &str) -> Result {
   let (end_input, input) = take_until(")")(input)?;
   let (end_input, _) = char(')')(end_input)?;
   let _ = all_consuming(|input: &str| -> Result { Ok((input, ())) })(end_input);

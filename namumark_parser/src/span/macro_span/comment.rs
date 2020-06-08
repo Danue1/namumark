@@ -2,27 +2,29 @@ use crate::{span_list, whitespace, MacroSpan, Result, EMPTY};
 use nom::{bytes::complete::take_until, character::complete::char, combinator::opt};
 
 pub(crate) fn comment(input: &str) -> Result<MacroSpan> {
-  let (input, _) = start(input)?;
-  let (input, label) = opt(label)(input)?;
+  let (input, _) = identifier(input)?;
+  let (input, description) = opt(description)(input)?;
   let span_list = span_list(whitespace(input));
   let span = MacroSpan::Comment(
     span_list,
-    label.map(|label| label.to_owned()).unwrap_or("".to_owned()),
+    description
+      .map(|description| description.to_owned())
+      .unwrap_or("".to_owned()),
   );
 
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
+fn identifier(input: &str) -> Result {
   let (input, _) = char('*')(input)?;
 
   Ok((input, ()))
 }
 
-fn label(input: &str) -> Result<&str> {
-  let (input, label) = take_until(" ")(input)?;
+fn description(input: &str) -> Result<&str> {
+  let (input, description) = take_until(" ")(input)?;
 
-  Ok((input, label))
+  Ok((input, description))
 }
 
 #[cfg(test)]

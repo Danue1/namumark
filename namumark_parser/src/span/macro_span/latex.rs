@@ -1,27 +1,30 @@
 use crate::{MacroSpan, Result, EMPTY};
-use nom::{bytes::complete::tag, combinator::verify};
+use nom::{
+  bytes::complete::{tag, take_till},
+  character::complete::char,
+  combinator::all_consuming,
+};
 
 pub(crate) fn latex(input: &str) -> Result<MacroSpan> {
-  let (input, _) = start(input)?;
-  let (input, _) = end(input)?;
+  let (input, _) = identifier(input)?;
+  let (input, _) = parens(input)?;
   let span = MacroSpan::Latex(input.to_owned());
 
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
-  let (input, _) = tag("math(")(input)?;
+fn identifier(input: &str) -> Result {
+  let (input, _) = tag("math")(input)?;
 
   Ok((input, ()))
 }
 
-fn end(input: &str) -> Result {
-  let _ = verify(
-    |input| -> Result<&str> { Ok((input, input)) },
-    |input: &str| input.ends_with(input),
-  )(input)?;
+fn parens(input: &str) -> Result {
+  let (input, _) = char('(')(input)?;
+  let (end_input, input) = take_till(|character| character == ')')(input)?;
+  let _ = all_consuming(char(')'))(end_input)?;
 
-  Ok((&input[..input.len() - 1], ()))
+  Ok((input, ()))
 }
 
 #[cfg(test)]

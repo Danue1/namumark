@@ -6,20 +6,20 @@ use nom::{
 };
 
 pub(crate) fn age(input: &str) -> Result<MacroSpan> {
-  let (input, _) = start(input)?;
-  let (input, _) = end(input)?;
+  let (input, _) = identifier(input)?;
+  let (input, _) = parens(input)?;
   let span = MacroSpan::Age(input.to_owned());
 
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
+fn identifier(input: &str) -> Result {
   let (input, _) = tag("age")(input)?;
 
   Ok((input, ()))
 }
 
-fn end(input: &str) -> Result {
+fn parens(input: &str) -> Result {
   let (input, _) = char('(')(input)?;
   let (end_input, input) = take_till(|character| character == ')')(input)?;
   let _ = all_consuming(char(')'))(end_input)?;

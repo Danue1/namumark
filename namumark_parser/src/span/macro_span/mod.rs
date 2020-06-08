@@ -21,7 +21,7 @@ use footnote::footnote;
 use include::include;
 use latex::latex;
 use linebreak::linebreak;
-use nom::{branch::alt, bytes::complete::take_until, character::complete::char};
+use nom::{branch::alt, bytes::complete::take_till, character::complete::char};
 use page_count::page_count;
 use ruby::ruby;
 use table_of_contents::table_of_contents;
@@ -49,20 +49,15 @@ pub struct RubyOption {
 }
 
 pub(crate) fn macro_span(input: &str) -> Result<MacroSpan> {
-  fn start(input: &str) -> Result {
+  fn parens(input: &str) -> Result<&str> {
     let (input, _) = char('[')(input)?;
+    let (input, line) = take_till(|character| character == ']')(input)?;
+    let (input, _) = char(']')(input)?;
 
-    Ok((input, ()))
+    Ok((input, line))
   };
 
-  fn end(input: &str) -> Result<&str> {
-    let (_, line) = take_until("]")(input)?;
-
-    Ok((&input[line.len() + 1..], line))
-  };
-
-  let (input, _) = start(input)?;
-  let (input, line) = end(input)?;
+  let (input, line) = parens(input)?;
   let (_, span) = alt((
     footnote,
     linebreak,

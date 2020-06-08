@@ -6,20 +6,20 @@ use nom::{
 };
 
 pub(crate) fn page_count(input: &str) -> Result<MacroSpan> {
-  let (input, _) = start(input)?;
-  let (_, namespace) = opt(namespace)(input)?;
+  let (input, _) = identifier(input)?;
+  let (_, namespace) = opt(parens)(input)?;
   let span = MacroSpan::PageCount(namespace.map(|namespace| namespace.to_owned()));
 
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
+fn identifier(input: &str) -> Result {
   let (input, _) = tag("pagecount")(input)?;
 
   Ok((input, ()))
 }
 
-fn namespace(input: &str) -> Result<&str> {
+fn parens(input: &str) -> Result<&str> {
   let (input, _) = char('(')(input)?;
   let (end_input, input) = take_until(")")(input)?;
   let _ = all_consuming(char(')'))(end_input)?;

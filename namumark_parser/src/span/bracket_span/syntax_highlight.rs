@@ -2,14 +2,14 @@ use crate::{BracketSpan, Result, EMPTY};
 use nom::{branch::alt, bytes::complete::tag};
 
 pub(crate) fn syntax_highlight(input: &str) -> Result<BracketSpan> {
-  let (input, _) = start(input)?;
+  let (input, _) = identifier(input)?;
   let (input, language) = language(input)?;
   let span = BracketSpan::SyntaxHighlight(input.to_owned(), language.to_owned());
 
   Ok((EMPTY, span))
 }
 
-fn start(input: &str) -> Result {
+fn identifier(input: &str) -> Result {
   let (input, _) = tag("#!syntax ")(input)?;
 
   Ok((input, ()))
