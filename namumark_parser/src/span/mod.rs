@@ -5,7 +5,7 @@ mod macro_span;
 mod semantic_span;
 
 use super::constants::EMPTY;
-use crate::Result;
+use crate::{should_be_empty, Result};
 pub use bracket_span::BracketSpan;
 use bracket_span::{bracket_span, starts_with_bracket_span};
 use command_span::command_span;
@@ -107,9 +107,7 @@ impl Default for Size {
 impl From<&str> for Size {
   fn from(source: &str) -> Self {
     fn numeric(input: &str) -> Result<f32> {
-      let (input, numeric) = float(input)?;
-
-      Ok((input, numeric))
+      float(input)
     };
 
     let is_match = |pattern, input| -> Result {
@@ -149,8 +147,12 @@ impl From<&str> for Color {
       let (input, r) = take(2usize)(input)?;
       let (input, g) = take(2usize)(input)?;
       let (input, b) = take(2usize)(input)?;
-      let _ = all_consuming(|input| -> Result { Ok((input, ())) })(input)?;
-      let color = Color::Hex(r.parse().unwrap(), g.parse().unwrap(), b.parse().unwrap());
+      let _ = should_be_empty(input)?;
+
+      let r: u8 = r.parse().unwrap();
+      let g: u8 = g.parse().unwrap();
+      let b: u8 = b.parse().unwrap();
+      let color = Color::Hex(r, g, b);
 
       Ok((EMPTY, color))
     };
@@ -184,16 +186,14 @@ impl From<&str> for Alignment {
 
 pub fn span_list(mut input: &str) -> Vec<Span> {
   let mut list = vec![];
-  if input.is_empty() {
-    return list;
-  }
-
-  while let Ok((next_input, span)) = span(input) {
-    list.push(span);
-    if next_input.is_empty() {
-      break;
+  while !input.is_empty() {
+    match span(input) {
+      Ok((next_input, span)) => {
+        list.push(span);
+        input = next_input;
+      }
+      _ => break,
     }
-    input = next_input;
   }
 
   list

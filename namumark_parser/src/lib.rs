@@ -13,6 +13,8 @@ pub use span::{
   Alignment, BracketSpan, Color, CommandSpan, ImageOption, MacroSpan, RubyOption, SemanticSpan,
   Size, SizeLevel, Span, VideoOption, VideoPlatform,
 };
-use utils::{line, line_with_bracket, linebreak, pipeline, whitespace, whitespace1};
+use utils::{
+  line, line_with_bracket, linebreak, pipeline, should_be_empty, whitespace, whitespace1,
+};
 
 type Result<'a, T = ()> = nom::IResult<&'a str, T>;

@@ -49,20 +49,14 @@ macro_rules! semantic_span {
       const MARKER: &'static str = $marker;
       const MARKER_COUNT: usize = MARKER.len();
 
-      fn start(input: &str) -> Result {
+      fn parens(input: &str) -> Result<&str> {
         let (input, _) = tag(MARKER)(input)?;
-
-        Ok((input, ()))
-      };
-
-      fn end(input: &str) -> Result<&str> {
         let (input, span_input) = take_until(MARKER)(input)?;
 
         Ok((&input[MARKER_COUNT..], span_input))
       };
 
-      let (input, _) = start(input)?;
-      let (input, span_input) = end(input)?;
+      let (input, span_input) = parens(input)?;
 
       Ok((input, span_input))
     }

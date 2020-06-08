@@ -1,5 +1,5 @@
 use crate::{Result, EMPTY};
-use nom::character::complete::char;
+use nom::{character::complete::char, combinator::all_consuming};
 
 pub(crate) fn slice_by(character: char) -> impl Fn(&str) -> &str {
   move |input: &str| -> &str {
@@ -27,6 +27,10 @@ pub(crate) fn whitespace1(input: &str) -> Result {
   let (input, _) = char(' ')(input)?;
 
   Ok((input, ()))
+}
+
+pub(crate) fn should_be_empty(input: &str) -> Result {
+  all_consuming(|input| -> Result { Ok((input, ())) })(input)
 }
 
 pub(crate) fn line(input: &str) -> (&str, &str) {
