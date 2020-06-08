@@ -92,7 +92,7 @@
   - [x] 접기
   - [x] 문법 강조(syntax highlight)
   - [x] 문법 무효화
-  - [x] HTML 직접 사용
+  - [ ] HTML 직접 사용
   - [ ] 줄바꿈 기준 지정
 
 - [ ] 괄호 2개 문법(command)
