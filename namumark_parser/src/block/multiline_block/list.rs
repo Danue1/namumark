@@ -280,933 +280,259 @@ Danuel";
   }
 }
 
-#[cfg(test)]
-mod ordered_list_hangul_chosung_tests {
-  use crate::*;
+macro_rules! ordered_list_tests {
+  (
+    $name:ident,
+    $variant:ident,
+    $a_line:expr,
+    $a_line_with_space:expr,
+    $a_line_with_a_indent:expr,
+    $a_line_with_singleline_bracket:expr,
+    $a_line_with_multiline_bracket:expr,
+    $a_line_with_specific_index:expr,
+    $a_line_and_a_text:expr,
+    $a_line_and_a_line:expr
+  ) => {
+    #[cfg(test)]
+    mod $name {
+      use crate::*;
 
-  #[test]
-  fn a_line() {
-    let source = " ㄱ.foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::HangulChosung("1".to_owned())
-      ))]
-    )
-  }
+      #[test]
+      fn a_line() {
+        let source = $a_line;
+        assert_eq!(
+          parse(source),
+          vec![Block::Multiline(MultilineBlock::OrderedList(
+            vec![ListItem(vec![MultilineBlock::Paragraph(vec![
+              Span::Inline("foo".to_owned())
+            ])])],
+            ListIndex::$variant("1".to_owned())
+          ))]
+        )
+      }
 
-  #[test]
-  fn a_line_with_space() {
-    let source = " ㄱ. foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::HangulChosung("1".to_owned())
-      ))]
-    )
-  }
+      #[test]
+      fn a_line_with_space() {
+        let source = $a_line_with_space;
+        assert_eq!(
+          parse(source),
+          vec![Block::Multiline(MultilineBlock::OrderedList(
+            vec![ListItem(vec![MultilineBlock::Paragraph(vec![
+              Span::Inline("foo".to_owned())
+            ])])],
+            ListIndex::$variant("1".to_owned())
+          ))]
+        )
+      }
 
-  #[test]
-  fn a_line_with_a_indent() {
-    let source = " ㄱ.  foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
-        ])])],
-        ListIndex::HangulChosung("1".to_owned())
-      ))]
-    )
-  }
+      #[test]
+      fn a_line_with_a_indent() {
+        let source = $a_line_with_a_indent;
+        assert_eq!(
+          parse(source),
+          vec![Block::Multiline(MultilineBlock::OrderedList(
+            vec![ListItem(vec![MultilineBlock::Indent(vec![
+              MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
+            ])])],
+            ListIndex::$variant("1".to_owned())
+          ))]
+        )
+      }
 
-  #[test]
-  fn a_line_with_singleline_bracket() {
-    let source = " ㄱ.foo {{{bar}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("bar".to_owned()))
-        ])])],
-        ListIndex::HangulChosung("1".to_owned())
-      ))]
-    )
-  }
+      #[test]
+      fn a_line_with_singleline_bracket() {
+        let source = $a_line_with_singleline_bracket;
+        assert_eq!(
+          parse(source),
+          vec![Block::Multiline(MultilineBlock::OrderedList(
+            vec![ListItem(vec![MultilineBlock::Paragraph(vec![
+              Span::Inline("foo ".to_owned()),
+              Span::Bracket(BracketSpan::Inline("bar".to_owned()))
+            ])])],
+            ListIndex::$variant("1".to_owned())
+          ))]
+        )
+      }
 
-  #[test]
-  fn a_line_with_multiline_bracket() {
-    let source = " ㄱ.foo {{{
-bar
-}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
-        ])])],
-        ListIndex::HangulChosung("1".to_owned())
-      ))]
-    )
-  }
+      #[test]
+      fn a_line_with_multiline_bracket() {
+        let source = $a_line_with_multiline_bracket;
+        assert_eq!(
+          parse(source),
+          vec![Block::Multiline(MultilineBlock::OrderedList(
+            vec![ListItem(vec![MultilineBlock::Paragraph(vec![
+              Span::Inline("foo ".to_owned()),
+              Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
+            ])])],
+            ListIndex::$variant("1".to_owned())
+          ))]
+        )
+      }
 
-  #[test]
-  fn a_line_with_specific_index() {
-    let source = " ㄱ.#4 foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::HangulChosung("4".to_owned())
-      ))]
-    )
-  }
+      #[test]
+      fn a_line_with_specific_index() {
+        let source = $a_line_with_specific_index;
+        assert_eq!(
+          parse(source),
+          vec![Block::Multiline(MultilineBlock::OrderedList(
+            vec![ListItem(vec![MultilineBlock::Paragraph(vec![
+              Span::Inline("foo".to_owned())
+            ])])],
+            ListIndex::$variant("4".to_owned())
+          ))]
+        )
+      }
 
-  #[test]
-  fn a_line_and_a_text() {
-    let source = " ㄱ.foo
-bar";
-    assert_eq!(
-      parse(source),
-      vec![
-        Block::Multiline(MultilineBlock::OrderedList(
-          vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-            Span::Inline("foo".to_owned())
-          ])])],
-          ListIndex::HangulChosung("1".to_owned())
-        )),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "bar".to_owned()
-        )],))
-      ]
-    )
-  }
+      #[test]
+      fn a_line_and_a_text() {
+        let source = $a_line_and_a_text;
+        assert_eq!(
+          parse(source),
+          vec![
+            Block::Multiline(MultilineBlock::OrderedList(
+              vec![ListItem(vec![MultilineBlock::Paragraph(vec![
+                Span::Inline("foo".to_owned())
+              ])])],
+              ListIndex::$variant("1".to_owned())
+            )),
+            Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
+              "bar".to_owned()
+            )],))
+          ]
+        )
+      }
 
-  #[test]
-  fn a_line_and_a_line() {
-    let source = " ㄱ.foo
- ㄱ.bar";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "foo".to_owned()
-          )])],),
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "bar".to_owned()
-          )])])
-        ],
-        ListIndex::HangulChosung("1".to_owned())
-      ))]
-    )
-  }
+      #[test]
+      fn a_line_and_a_line() {
+        let source = $a_line_and_a_line;
+        assert_eq!(
+          parse(source),
+          vec![Block::Multiline(MultilineBlock::OrderedList(
+            vec![
+              ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
+                "foo".to_owned()
+              )])],),
+              ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
+                "bar".to_owned()
+              )])])
+            ],
+            ListIndex::$variant("1".to_owned())
+          ))]
+        )
+      }
+    }
+  };
 }
 
-#[cfg(test)]
-mod ordered_list_hangul_syllable_tests {
-  use crate::*;
-
-  #[test]
-  fn a_line() {
-    let source = " 가.foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::HangulSyllable("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_space() {
-    let source = " 가. foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::HangulSyllable("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_a_indent() {
-    let source = " 가.  foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
-        ])])],
-        ListIndex::HangulSyllable("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_specific_index() {
-    let source = " 가.#4 foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::HangulSyllable("4".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_singleline_bracket() {
-    let source = " 가.foo {{{bar}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("bar".to_owned()))
-        ])])],
-        ListIndex::HangulSyllable("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_multiline_bracket() {
-    let source = " 가.foo {{{
+ordered_list_tests! {
+  ordered_list_numeric_tests,
+  Numeric,
+  " 1.foo",
+  " 1. foo",
+  " 1.  foo",
+  " 1.foo {{{bar}}}",
+  " 1.foo {{{
 bar
-}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
-        ])])],
-        ListIndex::HangulSyllable("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_text() {
-    let source = " 가.foo
-bar";
-    assert_eq!(
-      parse(source),
-      vec![
-        Block::Multiline(MultilineBlock::OrderedList(
-          vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-            Span::Inline("foo".to_owned())
-          ])])],
-          ListIndex::HangulSyllable("1".to_owned())
-        )),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "bar".to_owned()
-        )],))
-      ]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_line() {
-    let source = " 가.foo
- 가.bar";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "foo".to_owned()
-          )])],),
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "bar".to_owned()
-          )])])
-        ],
-        ListIndex::HangulSyllable("1".to_owned())
-      ))]
-    )
-  }
+}}}",
+  " 1.#4 foo",
+  " 1.foo
+bar",
+" 1.foo
+ 1.bar"
 }
-
-#[cfg(test)]
-mod unordered_list_lower_alphabet {
-  use crate::*;
-
-  #[test]
-  fn a_line() {
-    let source = " a.foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::LowerAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_space() {
-    let source = " a. foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::LowerAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_a_indent() {
-    let source = " a.  foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
-        ])])],
-        ListIndex::LowerAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_specific_index() {
-    let source = " a.#4 foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::LowerAlphabet("4".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_singleline_bracket() {
-    let source = " a.foo {{{bar}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("bar".to_owned()))
-        ])])],
-        ListIndex::LowerAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_multiline_bracket() {
-    let source = " a.foo {{{
+ordered_list_tests! {
+  ordered_list_hangul_chosung_tests,
+  HangulChosung,
+  " ㄱ.foo",
+  " ㄱ. foo",
+  " ㄱ.  foo",
+  " ㄱ.foo {{{bar}}}",
+  " ㄱ.foo {{{
 bar
-}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
-        ])])],
-        ListIndex::LowerAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_text() {
-    let source = " a.foo
-bar";
-    assert_eq!(
-      parse(source),
-      vec![
-        Block::Multiline(MultilineBlock::OrderedList(
-          vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-            Span::Inline("foo".to_owned())
-          ])])],
-          ListIndex::LowerAlphabet("1".to_owned())
-        )),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "bar".to_owned()
-        )],))
-      ]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_line() {
-    let source = " a.foo
- a.bar";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "foo".to_owned()
-          )])],),
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "bar".to_owned()
-          )])])
-        ],
-        ListIndex::LowerAlphabet("1".to_owned())
-      ))]
-    )
-  }
+}}}",
+  " ㄱ.#4 foo",
+  " ㄱ.foo
+bar",
+" ㄱ.foo
+ ㄱ.bar"
 }
-
-#[cfg(test)]
-mod unordered_list_upper_alphabet {
-  use crate::*;
-
-  #[test]
-  fn a_line() {
-    let source = " A.foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::UpperAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_space() {
-    let source = " A. foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::UpperAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_a_indent() {
-    let source = " A.  foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
-        ])])],
-        ListIndex::UpperAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_specific_index() {
-    let source = " A.#4 foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::UpperAlphabet("4".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_singleline_bracket() {
-    let source = " A.foo {{{bar}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("bar".to_owned()))
-        ])])],
-        ListIndex::UpperAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_multiline_bracket() {
-    let source = " A.foo {{{
+ordered_list_tests! {
+  ordered_list_hangul_syllable_tests,
+  HangulSyllable,
+  " 가.foo",
+  " 가. foo",
+  " 가.  foo",
+  " 가.foo {{{bar}}}",
+  " 가.foo {{{
 bar
-}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
-        ])])],
-        ListIndex::UpperAlphabet("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_text() {
-    let source = " A.foo
-bar";
-    assert_eq!(
-      parse(source),
-      vec![
-        Block::Multiline(MultilineBlock::OrderedList(
-          vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-            Span::Inline("foo".to_owned())
-          ])])],
-          ListIndex::UpperAlphabet("1".to_owned())
-        )),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "bar".to_owned()
-        )],))
-      ]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_line() {
-    let source = " A.foo
- A.bar";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "foo".to_owned()
-          )])],),
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "bar".to_owned()
-          )])])
-        ],
-        ListIndex::UpperAlphabet("1".to_owned())
-      ))]
-    )
-  }
+}}}",
+  " 가.#4 foo",
+  " 가.foo
+bar",
+" 가.foo
+ 가.bar"
 }
-
-#[cfg(test)]
-mod unordered_list_lower_arabic_tests {
-  use crate::*;
-
-  #[test]
-  fn a_line() {
-    let source = " i.foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::LowerArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_space() {
-    let source = " i. foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::LowerArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_a_indent() {
-    let source = " i.  foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
-        ])])],
-        ListIndex::LowerArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_specific_index() {
-    let source = " i.#4 foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::LowerArabic("4".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_singleline_bracket() {
-    let source = " i.foo {{{bar}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("bar".to_owned()))
-        ])])],
-        ListIndex::LowerArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_multiline_bracket() {
-    let source = " i.foo {{{
+ordered_list_tests! {
+  ordered_list_lower_alphabet_tests,
+  LowerAlphabet,
+  " a.foo",
+  " a. foo",
+  " a.  foo",
+  " a.foo {{{bar}}}",
+  " a.foo {{{
 bar
-}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
-        ])])],
-        ListIndex::LowerArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_text() {
-    let source = " i.foo
-bar";
-    assert_eq!(
-      parse(source),
-      vec![
-        Block::Multiline(MultilineBlock::OrderedList(
-          vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-            Span::Inline("foo".to_owned())
-          ])])],
-          ListIndex::LowerArabic("1".to_owned())
-        )),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "bar".to_owned()
-        )],))
-      ]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_line() {
-    let source = " i.foo
- i.bar";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "foo".to_owned()
-          )])],),
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "bar".to_owned()
-          )])])
-        ],
-        ListIndex::LowerArabic("1".to_owned())
-      ))]
-    )
-  }
+}}}",
+  " a.#4 foo",
+  " a.foo
+bar",
+" a.foo
+ a.bar"
 }
-
-#[cfg(test)]
-mod unordered_list_upper_alphabet_tests {
-  use crate::*;
-
-  #[test]
-  fn a_line() {
-    let source = " I.foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::UpperArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_space() {
-    let source = " I. foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::UpperArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_a_indent() {
-    let source = " I.  foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
-        ])])],
-        ListIndex::UpperArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_specific_index() {
-    let source = " I.#4 foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::UpperArabic("4".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_singleline_bracket() {
-    let source = " I.foo {{{bar}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("bar".to_owned()))
-        ])])],
-        ListIndex::UpperArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_multiline_bracket() {
-    let source = " I.foo {{{
+ordered_list_tests! {
+  ordered_list_upper_alphabet_tests,
+  UpperAlphabet,
+  " A.foo",
+  " A. foo",
+  " A.  foo",
+  " A.foo {{{bar}}}",
+  " A.foo {{{
 bar
-}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
-        ])])],
-        ListIndex::UpperArabic("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_text() {
-    let source = " I.foo
-bar";
-    assert_eq!(
-      parse(source),
-      vec![
-        Block::Multiline(MultilineBlock::OrderedList(
-          vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-            Span::Inline("foo".to_owned())
-          ])])],
-          ListIndex::UpperArabic("1".to_owned())
-        )),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "bar".to_owned()
-        )],))
-      ]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_line() {
-    let source = " I.foo
- I.bar";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "foo".to_owned()
-          )])],),
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "bar".to_owned()
-          )])])
-        ],
-        ListIndex::UpperArabic("1".to_owned())
-      ))]
-    )
-  }
+}}}",
+  " A.#4 foo",
+  " A.foo
+bar",
+" A.foo
+ A.bar"
 }
-
-#[cfg(test)]
-mod unordered_list_numeric {
-  use crate::*;
-
-  #[test]
-  fn a_line() {
-    let source = " 1.foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::Numeric("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_space() {
-    let source = " 1. foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::Numeric("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_a_indent() {
-    let source = " 1.  foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
-        ])])],
-        ListIndex::Numeric("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_singleline_bracket() {
-    let source = " 1.foo {{{bar}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("bar".to_owned()))
-        ])])],
-        ListIndex::Numeric("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_specific_index() {
-    let source = " 1.#4 foo";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo".to_owned())
-        ])])],
-        ListIndex::Numeric("4".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_with_multiline_bracket() {
-    let source = " 1.foo {{{
+ordered_list_tests! {
+  ordered_list_lower_arabic_tests,
+  LowerArabic,
+  " i.foo",
+  " i. foo",
+  " i.  foo",
+  " i.foo {{{bar}}}",
+  " i.foo {{{
 bar
-}}}";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-          Span::Inline("foo ".to_owned()),
-          Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
-        ])])],
-        ListIndex::Numeric("1".to_owned())
-      ))]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_text() {
-    let source = " 1.foo
-bar";
-    assert_eq!(
-      parse(source),
-      vec![
-        Block::Multiline(MultilineBlock::OrderedList(
-          vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-            Span::Inline("foo".to_owned())
-          ])])],
-          ListIndex::Numeric("1".to_owned())
-        )),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "bar".to_owned()
-        )],))
-      ]
-    )
-  }
-
-  #[test]
-  fn a_line_and_a_line() {
-    let source = " 1.foo
- 1.bar";
-    assert_eq!(
-      parse(source),
-      vec![Block::Multiline(MultilineBlock::OrderedList(
-        vec![
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "foo".to_owned()
-          )])],),
-          ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-            "bar".to_owned()
-          )])])
-        ],
-        ListIndex::Numeric("1".to_owned())
-      ))]
-    )
-  }
+}}}",
+  " i.#4 foo",
+  " i.foo
+bar",
+" i.foo
+ i.bar"
+}
+ordered_list_tests! {
+  ordered_list_upper_arabic_tests,
+  UpperArabic,
+  " I.foo",
+  " I. foo",
+  " I.  foo",
+  " I.foo {{{bar}}}",
+  " I.foo {{{
+bar
+}}}",
+  " I.#4 foo",
+  " I.foo
+bar",
+" I.foo
+ I.bar"
 }
