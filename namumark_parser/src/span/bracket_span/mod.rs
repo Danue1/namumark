@@ -18,12 +18,12 @@ const SIZE_LEVEL: &'static str = "12345";
 
 #[derive(Debug, PartialEq)]
 pub enum BracketSpan {
-  SizeUp(Vec<Span>, SizeLevel),
-  SizeDown(Vec<Span>, SizeLevel),
   Color(Vec<Span>, Color),
   Folding(Vec<MultilineBlock>),
-  SyntaxHighlight(String, String),
   Inline(String),
+  SizeDown(Vec<Span>, SizeLevel),
+  SizeUp(Vec<Span>, SizeLevel),
+  SyntaxHighlight(String, String),
 }
 
 pub(crate) fn bracket_span(input: &str) -> Result<BracketSpan> {

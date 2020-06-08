@@ -6,12 +6,12 @@ use nom::{
 
 #[derive(Debug, PartialEq)]
 pub enum SemanticSpan {
-  Strong(Vec<Span>),
-  Emphasis(Vec<Span>),
   Delete(Vec<Span>),
-  Underline(Vec<Span>),
-  Superscript(Vec<Span>),
+  Emphasis(Vec<Span>),
+  Strong(Vec<Span>),
   Subscript(Vec<Span>),
+  Superscript(Vec<Span>),
+  Underline(Vec<Span>),
 }
 
 pub(crate) fn semantic_span(input: &str) -> Result<SemanticSpan> {

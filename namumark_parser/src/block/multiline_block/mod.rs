@@ -14,23 +14,23 @@ use paragraph::paragraph;
 
 #[derive(Debug, PartialEq)]
 pub enum MultilineBlock {
-  UnorderedList(Vec<ListItem>),
-  OrderedList(Vec<ListItem>, ListIndex),
-  Indent(Vec<MultilineBlock>),
-  HorizontalRule,
   Blockquote(Vec<MultilineBlock>),
+  HorizontalRule,
+  Indent(Vec<MultilineBlock>),
+  OrderedList(Vec<ListItem>, ListIndex),
   Paragraph(Vec<Span>),
+  UnorderedList(Vec<ListItem>),
 }
 
 #[derive(Debug, PartialEq)]
 pub enum ListIndex {
   Numeric(String),
+  HangulChosung(String),
+  HangulSyllable(String),
   LowerAlphabet(String),
   UpperAlphabet(String),
   LowerArabic(String),
   UpperArabic(String),
-  HangulChosung(String),
-  HangulSyllable(String),
 }
 
 #[derive(Debug, PartialEq)]

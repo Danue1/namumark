@@ -28,18 +28,18 @@ use table_of_contents::table_of_contents;
 
 #[derive(Debug, PartialEq)]
 pub enum MacroSpan {
-  Linebreak,
-  Latex(String),
+  Age(String),
+  Comment(Vec<Span>, String),
   Date,
   Datetime,
-  PageCount(Option<String>),
-  Include(String),
-  TableOfContents,
-  Age(String),
   Dday(String),
-  Ruby(Option<(String, RubyOption)>),
-  Comment(Vec<Span>, String),
   Footnote,
+  Include(String),
+  Latex(String),
+  Linebreak,
+  PageCount(Option<String>),
+  Ruby(Option<(String, RubyOption)>),
+  TableOfContents,
 }
 
 #[derive(Debug, Default, PartialEq)]

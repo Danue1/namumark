@@ -14,11 +14,11 @@ use video::video;
 #[derive(Debug, PartialEq)]
 pub enum CommandSpan {
   Image(String, ImageOption),
-  Video(String, VideoOption),
   /// parent link와 child link는 아래 2개 케이스에 대해서만 작동한다
   /// parent => ../
   /// child => /foo
   Link(Vec<Span>, String),
+  Video(String, VideoOption),
 }
 
 #[derive(Debug, Default, PartialEq)]
