@@ -1,4 +1,5 @@
 mod age;
+mod anchor;
 mod comment;
 mod date;
 mod datetime;
@@ -13,6 +14,7 @@ mod table_of_contents;
 
 use crate::{Color, Result, Span};
 use age::age;
+use anchor::anchor;
 use comment::comment;
 use date::date;
 use datetime::datetime;
@@ -29,6 +31,7 @@ use table_of_contents::table_of_contents;
 #[derive(Debug, PartialEq)]
 pub enum MacroSpan {
   Age(String),
+  Anchor(String),
   Comment(Vec<Span>, String),
   Date,
   Datetime,
@@ -66,6 +69,7 @@ pub(crate) fn macro_span(input: &str) -> Result<MacroSpan> {
     page_count,
     include,
     table_of_contents,
+    anchor,
     latex,
     age,
     dday,
