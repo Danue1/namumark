@@ -72,108 +72,28 @@ semantic_span!(superscript, expect_superscript, "^^", Superscript);
 semantic_span!(subscript, expect_subscript, ",,", Subscript);
 
 #[cfg(test)]
-mod delete_tests {
+mod tests {
   use crate::*;
 
-  #[test]
-  fn basic1() {
-    let source = "~~Danuel~~";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Semantic(SemanticSpan::Delete(vec![Span::Inline(
-        "Danuel".to_owned()
-      )]))]
-    );
+  macro_rules! semantic_test {
+    ($source:expr, $variant:ident, $name:ident) => {
+      #[test]
+      fn $name() {
+        assert_eq!(
+          span_list($source),
+          vec![Span::Semantic(SemanticSpan::$variant(vec![Span::Inline(
+            "Danuel".to_owned()
+          )]))]
+        )
+      }
+    };
   }
 
-  #[test]
-  fn basic2() {
-    let source = "--Danuel--";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Semantic(SemanticSpan::Delete(vec![Span::Inline(
-        "Danuel".to_owned()
-      )]))]
-    );
-  }
-}
-
-#[cfg(test)]
-mod emphasis_tests {
-  use crate::*;
-
-  #[test]
-  fn basic() {
-    let source = "''Danuel''";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Semantic(SemanticSpan::Emphasis(vec![Span::Inline(
-        "Danuel".to_owned()
-      )]))]
-    );
-  }
-}
-
-#[cfg(test)]
-mod strong_tests {
-  use crate::*;
-
-  #[test]
-  fn basic() {
-    let source = "'''Danuel'''";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Semantic(SemanticSpan::Strong(vec![Span::Inline(
-        "Danuel".to_owned()
-      )]))]
-    );
-  }
-}
-
-#[cfg(test)]
-mod subscript_tests {
-  use crate::*;
-
-  #[test]
-  fn basic() {
-    let source = ",,Danuel,,";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Semantic(SemanticSpan::Subscript(vec![Span::Inline(
-        "Danuel".to_owned()
-      )]))]
-    );
-  }
-}
-
-#[cfg(test)]
-mod superscript_tests {
-  use crate::*;
-
-  #[test]
-  fn basic() {
-    let source = "^^Danuel^^";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Semantic(SemanticSpan::Superscript(vec![
-        Span::Inline("Danuel".to_owned())
-      ]))]
-    );
-  }
-}
-
-#[cfg(test)]
-mod underline_tests {
-  use crate::*;
-
-  #[test]
-  fn basic() {
-    let source = "__Danuel__";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Semantic(SemanticSpan::Underline(vec![Span::Inline(
-        "Danuel".to_owned()
-      )]))]
-    );
-  }
+  semantic_test!("~~Danuel~~", Delete, delete1);
+  semantic_test!("--Danuel--", Delete, delete2);
+  semantic_test!("''Danuel''", Emphasis, emphasis);
+  semantic_test!("'''Danuel'''", Strong, strong);
+  semantic_test!(",,Danuel,,", Subscript, subscript);
+  semantic_test!("^^Danuel^^", Superscript, superscript);
+  semantic_test!("__Danuel__", Underline, underline);
 }
