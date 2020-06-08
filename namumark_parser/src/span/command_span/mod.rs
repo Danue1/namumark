@@ -1,8 +1,10 @@
+mod category;
 mod image;
 mod link;
 mod video;
 
 use crate::{Alignment, Color, Result, Size, Span};
+use category::category;
 use image::image;
 use link::link;
 use nom::{
@@ -13,6 +15,7 @@ use video::video;
 
 #[derive(Debug, PartialEq)]
 pub enum CommandSpan {
+  Category(String),
   Image(String, ImageOption),
   /// parent link와 child link는 아래 2개 케이스에 대해서만 작동한다
   /// parent => ../
@@ -66,7 +69,7 @@ pub(crate) fn command_span(input: &str) -> Result<CommandSpan> {
 
   let (input, _) = start(input)?;
   let (input, line) = end(input)?;
-  let (_, span) = alt((image, video, link))(line)?;
+  let (_, span) = alt((image, video, category, link))(line)?;
 
   Ok((input, span))
 }
