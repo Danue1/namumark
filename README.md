@@ -146,7 +146,7 @@
 - [ ] 괄호 1개 문법(macro)
 
   - [x] 나이(age)
-  - [ ] 앵커(anchor)
+  - [x] 앵커(anchor)
   - [x] 주석(comment)
 
     - [x] 라벨 지정
