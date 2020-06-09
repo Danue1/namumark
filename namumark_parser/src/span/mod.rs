@@ -23,12 +23,12 @@ pub use semantic_span::SemanticSpan;
 use semantic_span::{semantic_span, starts_with_sematic_span};
 
 #[derive(Debug, PartialEq)]
-pub enum Span {
-  Semantic(SemanticSpan),
-  Bracket(BracketSpan),
-  Macro(MacroSpan),
-  Command(CommandSpan),
-  Inline(String),
+pub enum Span<'a> {
+  Semantic(SemanticSpan<'a>),
+  Bracket(BracketSpan<'a>),
+  Macro(MacroSpan<'a>),
+  Command(CommandSpan<'a>),
+  Inline(&'a str),
 }
 
 #[allow(dead_code)]
@@ -62,11 +62,11 @@ pub enum FontSizeLevel {
 }
 
 #[derive(Debug, PartialEq)]
-pub enum Color {
+pub enum Color<'a> {
   Hex(u8, u8, u8),
   Rgb(u8, u8, u8),
   Hsl(u8, u8, u8),
-  Raw(String),
+  Raw(&'a str),
 }
 
 impl From<usize> for FontSizeLevel {
@@ -133,16 +133,16 @@ impl From<&str> for Size {
   }
 }
 
-impl Default for Color {
+impl<'a> Default for Color<'a> {
   fn default() -> Self {
     Self::Hex(0, 0, 0)
   }
 }
 
-impl From<&str> for Color {
+impl<'a> From<&str> for Color<'a> {
   // TODO(Danuel): RGB, HSL 문법 추가
   fn from(source: &str) -> Self {
-    fn hex(input: &str) -> Result<Color> {
+    fn hex<'a>(input: &str) -> Result<Color<'a>> {
       let (input, _) = char('#')(input)?;
       let (input, r) = take(2usize)(input)?;
       let (input, g) = take(2usize)(input)?;

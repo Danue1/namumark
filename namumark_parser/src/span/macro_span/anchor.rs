@@ -8,7 +8,7 @@ use nom::{
 pub(crate) fn anchor(input: &str) -> Result<MacroSpan> {
   let (input, _) = identifier(input)?;
   let (input, _) = parens(input)?;
-  let span = MacroSpan::Anchor(input.to_owned());
+  let span = MacroSpan::Anchor(input);
 
   Ok((EMPTY, span))
 }
@@ -36,7 +36,7 @@ mod tests {
     let source = "[anchor(foo)]";
     assert_eq!(
       span_list(source),
-      vec![Span::Macro(MacroSpan::Anchor("foo".to_owned()))]
+      vec![Span::Macro(MacroSpan::Anchor("foo"))]
     );
   }
 }

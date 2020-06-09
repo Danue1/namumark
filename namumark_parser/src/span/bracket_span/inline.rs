@@ -1,7 +1,7 @@
 use crate::{BracketSpan, Result, EMPTY};
 
 pub(crate) fn inline(input: &str) -> Result<BracketSpan> {
-  let span = BracketSpan::Inline(input.to_owned());
+  let span = BracketSpan::Inline(input);
 
   Ok((EMPTY, span))
 }
@@ -15,7 +15,7 @@ mod tests {
     let source = "{{{Danuel}}}";
     assert_eq!(
       span_list(source),
-      vec![Span::Bracket(BracketSpan::Inline("Danuel".to_owned()))]
+      vec![Span::Bracket(BracketSpan::Inline("Danuel"))]
     );
   }
 }

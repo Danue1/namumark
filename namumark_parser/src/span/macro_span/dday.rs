@@ -8,7 +8,7 @@ use nom::{
 pub(crate) fn dday(input: &str) -> Result<MacroSpan> {
   let (input, _) = identifier(input)?;
   let (input, _) = parens(input)?;
-  let span = MacroSpan::Dday(input.to_owned());
+  let span = MacroSpan::Dday(input);
 
   Ok((EMPTY, span))
 }
@@ -36,7 +36,7 @@ mod tests {
     let source = "[dday(2020-01-01)]";
     assert_eq!(
       span_list(source),
-      vec![Span::Macro(MacroSpan::Dday("2020-01-01".to_owned()))]
+      vec![Span::Macro(MacroSpan::Dday("2020-01-01"))]
     );
   }
 }

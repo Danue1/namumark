@@ -10,7 +10,7 @@ pub(crate) fn include(input: &str) -> Result<MacroSpan> {
   let (input, _) = identifier(input)?;
   let (input, _) = parens(input)?;
   let (_, namespace) = namespace(input)?;
-  let span = MacroSpan::Include(namespace.to_owned());
+  let span = MacroSpan::Include(namespace);
 
   Ok((EMPTY, span))
 }
@@ -43,10 +43,7 @@ mod tests {
   #[test]
   fn empty() {
     let source = "[include()]";
-    assert_eq!(
-      span_list(source),
-      vec![Span::Macro(MacroSpan::Include("".to_owned()))]
-    );
+    assert_eq!(span_list(source), vec![Span::Macro(MacroSpan::Include(""))]);
   }
 
   #[test]
@@ -54,7 +51,7 @@ mod tests {
     let source = "[include(foo)]";
     assert_eq!(
       span_list(source),
-      vec![Span::Macro(MacroSpan::Include("foo".to_owned()))]
+      vec![Span::Macro(MacroSpan::Include("foo"))]
     );
   }
 }

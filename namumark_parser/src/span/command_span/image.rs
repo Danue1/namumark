@@ -6,7 +6,7 @@ pub(crate) fn image(input: &str) -> Result<CommandSpan> {
   let (input, _) = identifier(input)?;
   let (input, url) = url(input)?;
   let option = option(input);
-  let span = CommandSpan::Image(url.to_owned(), option);
+  let span = CommandSpan::Image(url, option);
 
   Ok((EMPTY, span))
 }
@@ -58,7 +58,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         Default::default()
       ))]
     );
@@ -70,7 +70,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           width: Size::Numeric(200.0),
           ..Default::default()
@@ -85,7 +85,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           height: Size::Numeric(200.0),
           ..Default::default()
@@ -100,7 +100,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           height: Size::Pixel(200.0),
           ..Default::default()
@@ -115,7 +115,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           align: Alignment::Start,
           ..Default::default()
@@ -130,7 +130,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           align: Alignment::End,
           ..Default::default()
@@ -145,7 +145,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           align: Alignment::Left,
           ..Default::default()
@@ -160,7 +160,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           align: Alignment::Center,
           ..Default::default()
@@ -175,7 +175,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           align: Alignment::Right,
           ..Default::default()
@@ -190,7 +190,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           background_color: Color::Hex(0, 0, 0),
           ..Default::default()
@@ -205,7 +205,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           width: Size::Numeric(200.0),
           height: Size::Numeric(200.0),
@@ -221,7 +221,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Image(
-        "a.jpg".to_owned(),
+        "a.jpg",
         ImageOption {
           width: Size::Numeric(200.0),
           height: Size::Numeric(200.0),

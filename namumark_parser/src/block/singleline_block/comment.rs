@@ -5,7 +5,7 @@ pub(crate) fn comment(input: &str) -> Result<SinglelineBlock> {
   let (input, line) = line(input);
   let (line, _) = start(line)?;
 
-  Ok((input, SinglelineBlock::Comment(line.to_owned())))
+  Ok((input, SinglelineBlock::Comment(line)))
 }
 
 fn start(input: &str) -> Result {
@@ -24,9 +24,7 @@ mod tests {
     let source = "##Danuel";
     assert_eq!(
       parse(source),
-      vec![Block::Singleline(SinglelineBlock::Comment(
-        "Danuel".to_owned()
-      ))]
+      vec![Block::Singleline(SinglelineBlock::Comment("Danuel"))]
     );
   }
 }

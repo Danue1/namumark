@@ -29,26 +29,26 @@ use ruby::ruby;
 use table_of_contents::table_of_contents;
 
 #[derive(Debug, PartialEq)]
-pub enum MacroSpan {
-  Age(String),
-  Anchor(String),
-  Comment(Vec<Span>, String),
+pub enum MacroSpan<'a> {
+  Age(&'a str),
+  Anchor(&'a str),
+  Comment(Vec<Span<'a>>, &'a str),
   Date,
   Datetime,
-  Dday(String),
+  Dday(&'a str),
   Footnote,
-  Include(String),
-  Latex(String),
+  Include(&'a str),
+  Latex(&'a str),
   Linebreak,
-  PageCount(Option<String>),
-  Ruby(Option<(String, RubyOption)>),
+  PageCount(Option<&'a str>),
+  Ruby(Option<(&'a str, RubyOption<'a>)>),
   TableOfContents,
 }
 
 #[derive(Debug, Default, PartialEq)]
-pub struct RubyOption {
-  color: Color,
-  text: String,
+pub struct RubyOption<'a> {
+  color: Color<'a>,
+  text: &'a str,
 }
 
 pub(crate) fn macro_span(input: &str) -> Result<MacroSpan> {

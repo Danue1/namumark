@@ -5,13 +5,13 @@ use nom::{
 };
 
 #[derive(Debug, PartialEq)]
-pub enum SemanticSpan {
-  Delete(Vec<Span>),
-  Emphasis(Vec<Span>),
-  Strong(Vec<Span>),
-  Subscript(Vec<Span>),
-  Superscript(Vec<Span>),
-  Underline(Vec<Span>),
+pub enum SemanticSpan<'a> {
+  Delete(Vec<Span<'a>>),
+  Emphasis(Vec<Span<'a>>),
+  Strong(Vec<Span<'a>>),
+  Subscript(Vec<Span<'a>>),
+  Superscript(Vec<Span<'a>>),
+  Underline(Vec<Span<'a>>),
 }
 
 pub(crate) fn semantic_span(input: &str) -> Result<SemanticSpan> {
@@ -82,7 +82,7 @@ mod tests {
         assert_eq!(
           span_list($source),
           vec![Span::Semantic(SemanticSpan::$variant(vec![Span::Inline(
-            "Danuel".to_owned()
+            "Danuel"
           )]))]
         )
       }

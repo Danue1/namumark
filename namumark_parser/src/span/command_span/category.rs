@@ -3,7 +3,7 @@ use nom::bytes::complete::tag;
 
 pub(crate) fn category(input: &str) -> Result<CommandSpan> {
   let (input, _) = identifier(input)?;
-  let span = CommandSpan::Category(input.to_owned());
+  let span = CommandSpan::Category(input);
 
   Ok((EMPTY, span))
 }
@@ -23,7 +23,7 @@ mod tests {
     let source = "[[분류:]]";
     assert_eq!(
       span_list(source),
-      vec![Span::Command(CommandSpan::Category("".to_owned()))]
+      vec![Span::Command(CommandSpan::Category(""))]
     )
   }
 
@@ -32,7 +32,7 @@ mod tests {
     let source = "[[분류:foo]]";
     assert_eq!(
       span_list(source),
-      vec![Span::Command(CommandSpan::Category("foo".to_owned()))]
+      vec![Span::Command(CommandSpan::Category("foo"))]
     )
   }
 }

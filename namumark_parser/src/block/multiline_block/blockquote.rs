@@ -42,7 +42,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Multiline(MultilineBlock::Blockquote(vec![
-        MultilineBlock::Paragraph(vec![Span::Inline("Danuel".to_owned())])
+        MultilineBlock::Paragraph(vec![Span::Inline("Danuel")])
       ]))]
     )
   }
@@ -53,7 +53,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Multiline(MultilineBlock::Blockquote(vec![
-        MultilineBlock::Paragraph(vec![Span::Inline("Danuel".to_owned())])
+        MultilineBlock::Paragraph(vec![Span::Inline("Danuel")])
       ]))]
     )
   }
@@ -65,7 +65,7 @@ mod tests {
       parse(source),
       vec![Block::Multiline(MultilineBlock::Blockquote(vec![
         MultilineBlock::Indent(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-          "Danuel".to_owned()
+          "Danuel"
         )])])
       ]))]
     )
@@ -79,11 +79,9 @@ Danuel";
       parse(source),
       vec![
         Block::Multiline(MultilineBlock::Blockquote(vec![MultilineBlock::Paragraph(
-          vec![Span::Inline("Danuel".to_owned())]
+          vec![Span::Inline("Danuel")]
         )])),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "Danuel".to_owned()
-        )]))
+        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline("Danuel")]))
       ]
     )
   }
@@ -95,8 +93,8 @@ Danuel";
     assert_eq!(
       parse(source),
       vec![Block::Multiline(MultilineBlock::Blockquote(vec![
-        MultilineBlock::Paragraph(vec![Span::Inline("Danuel".to_owned())]),
-        MultilineBlock::Paragraph(vec![Span::Inline("Danuel".to_owned())])
+        MultilineBlock::Paragraph(vec![Span::Inline("Danuel")]),
+        MultilineBlock::Paragraph(vec![Span::Inline("Danuel")])
       ],))]
     )
   }

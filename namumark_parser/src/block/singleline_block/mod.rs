@@ -9,10 +9,10 @@ use nom::branch::alt;
 use open_heading::open_heading;
 
 #[derive(Debug, PartialEq)]
-pub enum SinglelineBlock {
-  OpenHeading(Vec<Span>, HeadingLevel),
-  ClosedHeading(Vec<Span>, HeadingLevel),
-  Comment(String),
+pub enum SinglelineBlock<'a> {
+  OpenHeading(Vec<Span<'a>>, HeadingLevel),
+  ClosedHeading(Vec<Span<'a>>, HeadingLevel),
+  Comment(&'a str),
 }
 
 #[derive(Debug, PartialEq)]

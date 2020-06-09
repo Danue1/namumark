@@ -40,7 +40,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Singleline(SinglelineBlock::OpenHeading(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         HeadingLevel::One
       ))]
     );
@@ -52,7 +52,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Singleline(SinglelineBlock::OpenHeading(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         HeadingLevel::Two
       ))]
     );
@@ -64,7 +64,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Singleline(SinglelineBlock::OpenHeading(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         HeadingLevel::Three
       ))]
     );
@@ -76,7 +76,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Singleline(SinglelineBlock::OpenHeading(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         HeadingLevel::Four
       ))]
     );
@@ -88,7 +88,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Singleline(SinglelineBlock::OpenHeading(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         HeadingLevel::Five
       ))]
     );
@@ -100,7 +100,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Singleline(SinglelineBlock::OpenHeading(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         HeadingLevel::Six
       ))]
     );

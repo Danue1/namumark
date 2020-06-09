@@ -11,7 +11,7 @@ pub(crate) fn ruby(input: &str) -> Result<MacroSpan> {
   let (input, _) = parens(input)?;
   if let Ok((input, word)) = word(input) {
     if let Ok((_, ruby_option)) = ruby_option(input) {
-      let span = MacroSpan::Ruby(Some((word.to_owned(), ruby_option)));
+      let span = MacroSpan::Ruby(Some((word, ruby_option)));
 
       return Ok((EMPTY, span));
     }
@@ -49,7 +49,7 @@ fn ruby_option(input: &str) -> Result<RubyOption> {
     let token_list: Vec<&str> = token.split('=').map(|token| token.trim()).collect();
     match *token_list.as_slice() {
       ["ruby", value] => {
-        ruby_option.text = value.to_owned();
+        ruby_option.text = value;
       }
       ["color", value] => {
         ruby_option.color = value.into();
@@ -71,9 +71,9 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Macro(MacroSpan::Ruby(Some((
-        "foo".to_owned(),
+        "foo",
         RubyOption {
-          text: "bar".to_owned(),
+          text: "bar",
           ..Default::default()
         }
       ))))]
@@ -86,9 +86,9 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Macro(MacroSpan::Ruby(Some((
-        "foo".to_owned(),
+        "foo",
         RubyOption {
-          text: "bar".to_owned(),
+          text: "bar",
           color: Color::Hex(0, 0, 0)
         }
       ))))]

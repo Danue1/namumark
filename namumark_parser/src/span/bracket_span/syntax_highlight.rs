@@ -4,7 +4,7 @@ use nom::{branch::alt, bytes::complete::tag};
 pub(crate) fn syntax_highlight(input: &str) -> Result<BracketSpan> {
   let (input, _) = identifier(input)?;
   let (input, language) = language(input)?;
-  let span = BracketSpan::SyntaxHighlight(input.to_owned(), language.to_owned());
+  let span = BracketSpan::SyntaxHighlight(input, language);
 
   Ok((EMPTY, span))
 }
@@ -29,8 +29,8 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SyntaxHighlight(
-        "".to_owned(),
-        "javascript".to_owned(),
+        "",
+        "javascript"
       ))]
     )
   }
@@ -41,8 +41,8 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SyntaxHighlight(
-        " code".to_owned(),
-        "javascript".to_owned(),
+        " code",
+        "javascript"
       ))]
     )
   }
@@ -55,8 +55,8 @@ code
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SyntaxHighlight(
-        "\ncode\n".to_owned(),
-        "javascript".to_owned(),
+        "\ncode\n",
+        "javascript"
       ))]
     )
   }
@@ -66,10 +66,7 @@ code
     let source = "{{{#!syntax rust}}}";
     assert_eq!(
       span_list(source),
-      vec![Span::Bracket(BracketSpan::SyntaxHighlight(
-        "".to_owned(),
-        "rust".to_owned(),
-      ))]
+      vec![Span::Bracket(BracketSpan::SyntaxHighlight("", "rust"))]
     )
   }
 
@@ -78,10 +75,7 @@ code
     let source = "{{{#!syntax rust code}}}";
     assert_eq!(
       span_list(source),
-      vec![Span::Bracket(BracketSpan::SyntaxHighlight(
-        " code".to_owned(),
-        "rust".to_owned(),
-      ))]
+      vec![Span::Bracket(BracketSpan::SyntaxHighlight(" code", "rust"))]
     )
   }
 
@@ -93,8 +87,7 @@ code
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SyntaxHighlight(
-        "\ncode\n".to_owned(),
-        "rust".to_owned(),
+        "\ncode\n", "rust"
       ))]
     )
   }

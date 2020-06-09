@@ -8,7 +8,7 @@ use nom::{
 pub(crate) fn page_count(input: &str) -> Result<MacroSpan> {
   let (input, _) = identifier(input)?;
   let (_, namespace) = opt(parens)(input)?;
-  let span = MacroSpan::PageCount(namespace.map(|namespace| namespace.to_owned()));
+  let span = MacroSpan::PageCount(namespace.map(|namespace| namespace));
 
   Ok((EMPTY, span))
 }
@@ -45,7 +45,7 @@ mod tests {
     let source = "[pagecount(file)]";
     assert_eq!(
       span_list(source),
-      vec![Span::Macro(MacroSpan::PageCount(Some("file".to_owned())))]
+      vec![Span::Macro(MacroSpan::PageCount(Some("file")))]
     );
   }
 }

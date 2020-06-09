@@ -1,14 +1,14 @@
 use super::{starts_with_bracket_span, starts_with_sematic_span};
 use crate::Result;
 
-pub(crate) fn inline(input: &str) -> Result<String> {
+pub(crate) fn inline(input: &str) -> Result<&str> {
   let mut index = 0;
   while index < input.len() && !starts_with_span(&input[index..]) {
     index += 1;
   }
   let (input, inline) = (&input[index..], &input[..index]);
 
-  Ok((input, inline.to_owned()))
+  Ok((input, inline))
 }
 
 fn starts_with_span(input: &str) -> bool {
@@ -22,6 +22,6 @@ mod tests {
   #[test]
   fn basic() {
     let source = "Danuel";
-    assert_eq!(span_list(source), vec![Span::Inline("Danuel".to_owned())]);
+    assert_eq!(span_list(source), vec![Span::Inline("Danuel")]);
   }
 }

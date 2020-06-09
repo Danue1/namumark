@@ -19,7 +19,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::Folding(vec![
-        MultilineBlock::Paragraph(vec![Span::Inline("Danuel".to_owned())])
+        MultilineBlock::Paragraph(vec![Span::Inline("Danuel")])
       ]))]
     )
   }

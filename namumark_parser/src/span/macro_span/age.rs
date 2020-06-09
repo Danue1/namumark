@@ -8,7 +8,7 @@ use nom::{
 pub(crate) fn age(input: &str) -> Result<MacroSpan> {
   let (input, _) = identifier(input)?;
   let (input, _) = parens(input)?;
-  let span = MacroSpan::Age(input.to_owned());
+  let span = MacroSpan::Age(input);
 
   Ok((EMPTY, span))
 }
@@ -36,7 +36,7 @@ mod tests {
     let source = "[age(2020-01-01)]";
     assert_eq!(
       span_list(source),
-      vec![Span::Macro(MacroSpan::Age("2020-01-01".to_owned()))]
+      vec![Span::Macro(MacroSpan::Age("2020-01-01"))]
     );
   }
 }

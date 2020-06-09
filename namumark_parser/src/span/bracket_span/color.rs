@@ -4,7 +4,7 @@ use nom::bytes::complete::{is_a, tag, take};
 pub(crate) fn color(input: &str) -> Result<BracketSpan> {
   let (input, (code, span_input)) = expect_color(input)?;
   let span_list = span_list(span_input);
-  let span = BracketSpan::Color(span_list, Color::Raw(code.to_owned()));
+  let span = BracketSpan::Color(span_list, Color::Raw(code));
 
   Ok((input, span))
 }
@@ -37,8 +37,8 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::Color(
-        vec![Span::Inline("Danuel".to_owned())],
-        Color::Raw("000000".to_owned())
+        vec![Span::Inline("Danuel")],
+        Color::Raw("000000")
       ))]
     );
   }

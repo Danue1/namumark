@@ -106,7 +106,7 @@ macro_rules! ordered_list_type {
         }
       }
 
-      let list_index = ListIndex::$variant(cursor.unwrap_or_else(|| "1").to_owned());
+      let list_index = ListIndex::$variant(cursor.unwrap_or_else(|| "1"));
       let block = MultilineBlock::OrderedList(item_list, list_index);
 
       Ok((input, block))
@@ -213,7 +213,7 @@ mod unordered_list_tests {
       parse(source),
       vec![Block::Multiline(MultilineBlock::UnorderedList(vec![
         ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-          "Danuel".to_owned()
+          "Danuel"
         )])])
       ]))]
     )
@@ -226,7 +226,7 @@ mod unordered_list_tests {
       parse(source),
       vec![Block::Multiline(MultilineBlock::UnorderedList(vec![
         ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-          "Danuel".to_owned()
+          "Danuel"
         )])])
       ]))]
     )
@@ -239,7 +239,7 @@ mod unordered_list_tests {
       parse(source),
       vec![Block::Multiline(MultilineBlock::UnorderedList(vec![
         ListItem(vec![MultilineBlock::Indent(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("Danuel".to_owned())])
+          MultilineBlock::Paragraph(vec![Span::Inline("Danuel")])
         ])])
       ]))]
     )
@@ -253,11 +253,9 @@ Danuel";
       parse(source),
       vec![
         Block::Multiline(MultilineBlock::UnorderedList(vec![ListItem(vec![
-          MultilineBlock::Paragraph(vec![Span::Inline("Danuel".to_owned())])
+          MultilineBlock::Paragraph(vec![Span::Inline("Danuel")])
         ])])),
-        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-          "Danuel".to_owned()
-        )]))
+        Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline("Danuel")]))
       ]
     )
   }
@@ -270,10 +268,10 @@ Danuel";
       parse(source),
       vec![Block::Multiline(MultilineBlock::UnorderedList(vec![
         ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-          "Danuel".to_owned()
+          "Danuel"
         )])]),
         ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-          "Danuel".to_owned()
+          "Danuel"
         )])])
       ]))]
     )
@@ -304,9 +302,9 @@ macro_rules! ordered_list_tests {
           parse(source),
           vec![Block::Multiline(MultilineBlock::OrderedList(
             vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-              Span::Inline("foo".to_owned())
+              Span::Inline("foo")
             ])])],
-            ListIndex::$variant("1".to_owned())
+            ListIndex::$variant("1")
           ))]
         )
       }
@@ -318,9 +316,9 @@ macro_rules! ordered_list_tests {
           parse(source),
           vec![Block::Multiline(MultilineBlock::OrderedList(
             vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-              Span::Inline("foo".to_owned())
+              Span::Inline("foo")
             ])])],
-            ListIndex::$variant("1".to_owned())
+            ListIndex::$variant("1")
           ))]
         )
       }
@@ -332,9 +330,9 @@ macro_rules! ordered_list_tests {
           parse(source),
           vec![Block::Multiline(MultilineBlock::OrderedList(
             vec![ListItem(vec![MultilineBlock::Indent(vec![
-              MultilineBlock::Paragraph(vec![Span::Inline("foo".to_owned())])
+              MultilineBlock::Paragraph(vec![Span::Inline("foo")])
             ])])],
-            ListIndex::$variant("1".to_owned())
+            ListIndex::$variant("1")
           ))]
         )
       }
@@ -346,10 +344,10 @@ macro_rules! ordered_list_tests {
           parse(source),
           vec![Block::Multiline(MultilineBlock::OrderedList(
             vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-              Span::Inline("foo ".to_owned()),
-              Span::Bracket(BracketSpan::Inline("bar".to_owned()))
+              Span::Inline("foo "),
+              Span::Bracket(BracketSpan::Inline("bar"))
             ])])],
-            ListIndex::$variant("1".to_owned())
+            ListIndex::$variant("1")
           ))]
         )
       }
@@ -361,10 +359,10 @@ macro_rules! ordered_list_tests {
           parse(source),
           vec![Block::Multiline(MultilineBlock::OrderedList(
             vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-              Span::Inline("foo ".to_owned()),
-              Span::Bracket(BracketSpan::Inline("\nbar\n".to_owned()))
+              Span::Inline("foo "),
+              Span::Bracket(BracketSpan::Inline("\nbar\n"))
             ])])],
-            ListIndex::$variant("1".to_owned())
+            ListIndex::$variant("1")
           ))]
         )
       }
@@ -376,9 +374,9 @@ macro_rules! ordered_list_tests {
           parse(source),
           vec![Block::Multiline(MultilineBlock::OrderedList(
             vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-              Span::Inline("foo".to_owned())
+              Span::Inline("foo")
             ])])],
-            ListIndex::$variant("4".to_owned())
+            ListIndex::$variant("4")
           ))]
         )
       }
@@ -391,13 +389,11 @@ macro_rules! ordered_list_tests {
           vec![
             Block::Multiline(MultilineBlock::OrderedList(
               vec![ListItem(vec![MultilineBlock::Paragraph(vec![
-                Span::Inline("foo".to_owned())
+                Span::Inline("foo")
               ])])],
-              ListIndex::$variant("1".to_owned())
+              ListIndex::$variant("1")
             )),
-            Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline(
-              "bar".to_owned()
-            )],))
+            Block::Multiline(MultilineBlock::Paragraph(vec![Span::Inline("bar")],))
           ]
         )
       }
@@ -409,14 +405,10 @@ macro_rules! ordered_list_tests {
           parse(source),
           vec![Block::Multiline(MultilineBlock::OrderedList(
             vec![
-              ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-                "foo".to_owned()
-              )])],),
-              ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline(
-                "bar".to_owned()
-              )])])
+              ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline("foo")])],),
+              ListItem(vec![MultilineBlock::Paragraph(vec![Span::Inline("bar")])])
             ],
-            ListIndex::$variant("1".to_owned())
+            ListIndex::$variant("1")
           ))]
         )
       }

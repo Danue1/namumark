@@ -7,9 +7,7 @@ pub(crate) fn comment(input: &str) -> Result<MacroSpan> {
   let span_list = span_list(whitespace(input));
   let span = MacroSpan::Comment(
     span_list,
-    description
-      .map(|description| description.to_owned())
-      .unwrap_or("".to_owned()),
+    description.map(|description| description).unwrap_or(""),
   );
 
   Ok((EMPTY, span))
@@ -37,8 +35,8 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Macro(MacroSpan::Comment(
-        vec![Span::Inline("Danuel".to_owned())],
-        "".to_owned()
+        vec![Span::Inline("Danuel")],
+        ""
       ))]
     );
   }
@@ -49,8 +47,8 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Macro(MacroSpan::Comment(
-        vec![Span::Inline("Danuel".to_owned())],
-        "Foo".to_owned()
+        vec![Span::Inline("Danuel")],
+        "Foo"
       ))]
     );
   }

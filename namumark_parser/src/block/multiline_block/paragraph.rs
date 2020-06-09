@@ -14,7 +14,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Multiline(MultilineBlock::Paragraph(vec![
-        Span::Inline("Danuel".to_owned())
+        Span::Inline("Danuel")
       ]))]
     );
   }

@@ -13,35 +13,35 @@ use nom::branch::alt;
 use paragraph::paragraph;
 
 #[derive(Debug, PartialEq)]
-pub enum MultilineBlock {
-  Blockquote(Vec<MultilineBlock>),
+pub enum MultilineBlock<'a> {
+  Blockquote(Vec<MultilineBlock<'a>>),
   HorizontalRule,
-  Indent(Vec<MultilineBlock>),
-  OrderedList(Vec<ListItem>, ListIndex),
-  Paragraph(Vec<Span>),
-  UnorderedList(Vec<ListItem>),
+  Indent(Vec<MultilineBlock<'a>>),
+  OrderedList(Vec<ListItem<'a>>, ListIndex<'a>),
+  Paragraph(Vec<Span<'a>>),
+  UnorderedList(Vec<ListItem<'a>>),
 }
 
 #[derive(Debug, PartialEq)]
-pub enum ListIndex {
-  Numeric(String),
-  HangulChosung(String),
-  HangulSyllable(String),
-  LowerAlphabet(String),
-  UpperAlphabet(String),
-  LowerArabic(String),
-  UpperArabic(String),
+pub enum ListIndex<'a> {
+  Numeric(&'a str),
+  HangulChosung(&'a str),
+  HangulSyllable(&'a str),
+  LowerAlphabet(&'a str),
+  UpperAlphabet(&'a str),
+  LowerArabic(&'a str),
+  UpperArabic(&'a str),
 }
 
 #[derive(Debug, PartialEq)]
-pub struct ListItem(pub Vec<MultilineBlock>);
+pub struct ListItem<'a>(pub Vec<MultilineBlock<'a>>);
 
-impl ListItem {
-  pub fn iter(&self) -> std::slice::Iter<MultilineBlock> {
+impl<'a> ListItem<'a> {
+  pub fn iter(&self) -> std::slice::Iter<MultilineBlock<'a>> {
     self.0.iter()
   }
 
-  pub fn into_iter(self) -> std::vec::IntoIter<MultilineBlock> {
+  pub fn into_iter(self) -> std::vec::IntoIter<MultilineBlock<'a>> {
     self.0.into_iter()
   }
 }

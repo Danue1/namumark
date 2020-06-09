@@ -36,7 +36,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeUp(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         FontSizeLevel::One
       ))]
     );
@@ -48,7 +48,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeUp(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         FontSizeLevel::Two
       ))]
     );
@@ -60,7 +60,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeUp(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         FontSizeLevel::Three
       ))]
     );
@@ -72,7 +72,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeUp(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         FontSizeLevel::Four
       ))]
     );
@@ -84,7 +84,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Bracket(BracketSpan::SizeUp(
-        vec![Span::Inline("Danuel".to_owned())],
+        vec![Span::Inline("Danuel")],
         FontSizeLevel::Five
       ))]
     );

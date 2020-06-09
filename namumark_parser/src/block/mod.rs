@@ -8,9 +8,9 @@ use singleline_block::singleline_block;
 pub use singleline_block::{HeadingLevel, SinglelineBlock};
 
 #[derive(Debug, PartialEq)]
-pub enum Block {
-  Singleline(SinglelineBlock),
-  Multiline(MultilineBlock),
+pub enum Block<'a> {
+  Singleline(SinglelineBlock<'a>),
+  Multiline(MultilineBlock<'a>),
 }
 
 pub fn block_list(mut input: &str) -> Vec<Block> {

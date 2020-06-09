@@ -14,22 +14,22 @@ use nom::{
 use video::video;
 
 #[derive(Debug, PartialEq)]
-pub enum CommandSpan {
-  Category(String),
-  Image(String, ImageOption),
+pub enum CommandSpan<'a> {
+  Category(&'a str),
+  Image(&'a str, ImageOption<'a>),
   /// parent link와 child link는 아래 2개 케이스에 대해서만 작동한다
   /// parent => ../
   /// child => /foo
-  Link(Vec<Span>, String),
-  Video(String, VideoOption),
+  Link(Vec<Span<'a>>, &'a str),
+  Video(&'a str, VideoOption),
 }
 
 #[derive(Debug, Default, PartialEq)]
-pub struct ImageOption {
+pub struct ImageOption<'a> {
   width: Size,
   height: Size,
   align: Alignment,
-  background_color: Color,
+  background_color: Color<'a>,
 }
 
 #[derive(Debug, Default, PartialEq)]

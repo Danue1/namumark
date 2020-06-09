@@ -8,7 +8,7 @@ use nom::{
 pub(crate) fn latex(input: &str) -> Result<MacroSpan> {
   let (input, _) = identifier(input)?;
   let (input, _) = parens(input)?;
-  let span = MacroSpan::Latex(input.to_owned());
+  let span = MacroSpan::Latex(input);
 
   Ok((EMPTY, span))
 }
@@ -36,7 +36,7 @@ mod tests {
     let source = "[math(Danuel)]";
     assert_eq!(
       span_list(source),
-      vec![Span::Macro(MacroSpan::Latex("Danuel".to_owned()))]
+      vec![Span::Macro(MacroSpan::Latex("Danuel"))]
     );
   }
 }

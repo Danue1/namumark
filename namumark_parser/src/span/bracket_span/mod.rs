@@ -17,13 +17,13 @@ use syntax_highlight::syntax_highlight;
 const SIZE_LEVEL: &'static str = "12345";
 
 #[derive(Debug, PartialEq)]
-pub enum BracketSpan {
-  Color(Vec<Span>, Color),
-  Folding(Vec<MultilineBlock>),
-  Inline(String),
-  SizeDown(Vec<Span>, FontSizeLevel),
-  SizeUp(Vec<Span>, FontSizeLevel),
-  SyntaxHighlight(String, String),
+pub enum BracketSpan<'a> {
+  Color(Vec<Span<'a>>, Color<'a>),
+  Folding(Vec<MultilineBlock<'a>>),
+  Inline(&'a str),
+  SizeDown(Vec<Span<'a>>, FontSizeLevel),
+  SizeUp(Vec<Span<'a>>, FontSizeLevel),
+  SyntaxHighlight(&'a str, &'a str),
 }
 
 pub(crate) fn bracket_span(input: &str) -> Result<BracketSpan> {

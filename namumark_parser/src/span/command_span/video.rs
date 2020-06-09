@@ -10,7 +10,7 @@ pub(crate) fn video(input: &str) -> Result<CommandSpan> {
   let (input, platform) = identifier(input)?;
   let (input, _) = parens(input)?;
   let (url, option) = center(input, platform)?;
-  let span = CommandSpan::Video(url.to_owned(), option);
+  let span = CommandSpan::Video(url, option);
 
   Ok((EMPTY, span))
 }
@@ -83,7 +83,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Video(
-        "danuel".to_owned(),
+        "danuel",
         VideoOption {
           platform: VideoPlatform::Youtube,
           ..Default::default()
@@ -98,7 +98,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Video(
-        "danuel".to_owned(),
+        "danuel",
         VideoOption {
           platform: VideoPlatform::KakaoTv,
           ..Default::default()
@@ -113,7 +113,7 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Video(
-        "danuel".to_owned(),
+        "danuel",
         VideoOption {
           platform: VideoPlatform::NicoVideo,
           ..Default::default()

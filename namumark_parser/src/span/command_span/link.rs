@@ -4,7 +4,7 @@ use nom::bytes::complete::take_till;
 pub(crate) fn link(input: &str) -> Result<CommandSpan> {
   let (input, link) = start(input)?;
   let span_list = span_list(input);
-  let span = CommandSpan::Link(span_list, link.to_owned());
+  let span = CommandSpan::Link(span_list, link);
 
   Ok((EMPTY, span))
 }
@@ -25,7 +25,7 @@ mod tests {
     let source = "[[]]";
     assert_eq!(
       span_list(source),
-      vec![Span::Command(CommandSpan::Link(vec![], "".to_owned()))]
+      vec![Span::Command(CommandSpan::Link(vec![], ""))]
     );
   }
 
@@ -34,7 +34,7 @@ mod tests {
     let source = "[[/foo]]";
     assert_eq!(
       span_list(source),
-      vec![Span::Command(CommandSpan::Link(vec![], "/foo".to_owned()))]
+      vec![Span::Command(CommandSpan::Link(vec![], "/foo"))]
     );
   }
 
@@ -44,8 +44,8 @@ mod tests {
     assert_eq!(
       span_list(source),
       vec![Span::Command(CommandSpan::Link(
-        vec![Span::Inline("Danuel".to_owned())],
-        "/foo".to_owned()
+        vec![Span::Inline("Danuel")],
+        "/foo"
       ))]
     );
   }

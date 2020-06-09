@@ -29,7 +29,7 @@ mod tests {
     assert_eq!(
       parse(source),
       vec![Block::Multiline(MultilineBlock::Paragraph(vec![
-        Span::Inline("---".to_owned())
+        Span::Inline("---")
       ]))]
     );
   }
@@ -96,7 +96,7 @@ mod tests {
       vec![Block::Multiline(MultilineBlock::Paragraph(vec![
         Span::Semantic(SemanticSpan::Delete(vec![])),
         Span::Semantic(SemanticSpan::Delete(vec![])),
-        Span::Inline("--".to_owned())
+        Span::Inline("--")
       ]))]
     );
   }
