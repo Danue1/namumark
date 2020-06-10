@@ -31,3 +31,80 @@ fn end(input: &str, level: usize) -> Result {
 
   Ok((input, ()))
 }
+
+#[cfg(test)]
+mod tests {
+  use crate::*;
+
+  #[test]
+  fn level_1() {
+    let source = "=# Danuel #=";
+    assert_eq!(
+      parse(source),
+      vec![Block::Singleline(SinglelineBlock::ClosedHeading(
+        vec![Span::Inline("Danuel")],
+        HeadingLevel::One
+      ))]
+    );
+  }
+
+  #[test]
+  fn level_2() {
+    let source = "==# Danuel #==";
+    assert_eq!(
+      parse(source),
+      vec![Block::Singleline(SinglelineBlock::ClosedHeading(
+        vec![Span::Inline("Danuel")],
+        HeadingLevel::Two
+      ))]
+    );
+  }
+
+  #[test]
+  fn level_3() {
+    let source = "===# Danuel #===";
+    assert_eq!(
+      parse(source),
+      vec![Block::Singleline(SinglelineBlock::ClosedHeading(
+        vec![Span::Inline("Danuel")],
+        HeadingLevel::Three
+      ))]
+    );
+  }
+
+  #[test]
+  fn level_4() {
+    let source = "====# Danuel #====";
+    assert_eq!(
+      parse(source),
+      vec![Block::Singleline(SinglelineBlock::ClosedHeading(
+        vec![Span::Inline("Danuel")],
+        HeadingLevel::Four
+      ))]
+    );
+  }
+
+  #[test]
+  fn level_5() {
+    let source = "=====# Danuel #=====";
+    assert_eq!(
+      parse(source),
+      vec![Block::Singleline(SinglelineBlock::ClosedHeading(
+        vec![Span::Inline("Danuel")],
+        HeadingLevel::Five
+      ))]
+    );
+  }
+
+  #[test]
+  fn level_6() {
+    let source = "======# Danuel #======";
+    assert_eq!(
+      parse(source),
+      vec![Block::Singleline(SinglelineBlock::ClosedHeading(
+        vec![Span::Inline("Danuel")],
+        HeadingLevel::Six
+      ))]
+    );
+  }
+}
