@@ -6,8 +6,8 @@ mod semantic_span;
 
 use super::constants::EMPTY;
 use crate::{should_be_empty, Result};
+use bracket_span::bracket_span;
 pub use bracket_span::BracketSpan;
-use bracket_span::{bracket_span, starts_with_bracket_span};
 use command_span::command_span;
 pub use command_span::{CommandSpan, ImageOption, VideoOption, VideoPlatform};
 use inline::inline;
@@ -19,8 +19,8 @@ use nom::{
   combinator::all_consuming,
   number::complete::float,
 };
+use semantic_span::semantic_span;
 pub use semantic_span::SemanticSpan;
-use semantic_span::{semantic_span, starts_with_sematic_span};
 
 #[derive(Debug, PartialEq)]
 pub enum Span<'a> {

@@ -12,7 +12,7 @@ mod page_count;
 mod ruby;
 mod table_of_contents;
 
-use crate::{Color, Result, Span};
+use crate::{line, Color, Result, Span};
 use age::age;
 use anchor::anchor;
 use comment::comment;
@@ -78,4 +78,10 @@ pub(crate) fn macro_span(input: &str) -> Result<MacroSpan> {
   ))(line)?;
 
   Ok((input, span))
+}
+
+pub(crate) fn starts_with_macro_span(input: &str) -> bool {
+  let (_, input) = line(input);
+
+  input.starts_with('[') && input.find(']').is_some() && macro_span(input).is_ok()
 }

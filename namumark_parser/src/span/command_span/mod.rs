@@ -3,7 +3,7 @@ mod image;
 mod link;
 mod video;
 
-use crate::{Alignment, Color, Result, Size, Span};
+use crate::{line, Alignment, Color, Result, Size, Span};
 use category::category;
 use image::image;
 use link::link;
@@ -72,4 +72,10 @@ pub(crate) fn command_span(input: &str) -> Result<CommandSpan> {
   let (_, span) = alt((image, video, category, link))(line)?;
 
   Ok((input, span))
+}
+
+pub(crate) fn starts_with_command_span(input: &str) -> bool {
+  let (_, input) = line(input);
+
+  input.starts_with("[[") && input.find("]]").is_some()
 }

@@ -1,4 +1,7 @@
-use super::{starts_with_bracket_span, starts_with_sematic_span};
+use super::{
+  bracket_span::starts_with_bracket_span, command_span::starts_with_command_span,
+  macro_span::starts_with_macro_span, semantic_span::starts_with_sematic_span,
+};
 use crate::Result;
 
 pub(crate) fn inline(input: &str) -> Result<&str> {
@@ -19,7 +22,10 @@ pub(crate) fn inline(input: &str) -> Result<&str> {
 }
 
 fn starts_with_span(input: &str) -> bool {
-  starts_with_sematic_span(input) || starts_with_bracket_span(input)
+  starts_with_sematic_span(input)
+    || starts_with_bracket_span(input)
+    || starts_with_command_span(input)
+    || starts_with_macro_span(input)
 }
 
 #[cfg(test)]
