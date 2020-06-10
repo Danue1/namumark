@@ -1,6 +1,6 @@
 mod closed_heading;
-mod comment;
-mod open_heading;
+pub(crate) mod comment;
+pub(crate) mod open_heading;
 
 use crate::{Result, Span};
 use closed_heading::closed_heading;

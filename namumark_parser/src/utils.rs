@@ -4,7 +4,7 @@ use nom::{character::complete::char, combinator::all_consuming};
 pub(crate) fn slice_by(character: char) -> impl Fn(&str) -> &str {
   move |input: &str| -> &str {
     if input.starts_with(character) {
-      &input[1..]
+      &input[character.len_utf8()..]
     } else {
       input
     }
@@ -80,7 +80,7 @@ pub(crate) fn line_with_bracket(input: &str) -> (&str, &str) {
   }
 
   match range {
-    Some((0, end)) => (&input[end + START.len()..], &input[..end + END.len()]),
+    Some((0, end)) => (&input[end..], &input[..end]),
     Some((start, _)) => (&input[start..], &input[..start]),
     _ => ("", input),
   }

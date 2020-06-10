@@ -19,6 +19,12 @@ fn is_valid(input: &str) -> Result {
   Ok((input, ()))
 }
 
+pub(crate) fn starts_with_horizontal_rule(input: &str) -> bool {
+  let (_, line) = line(input);
+
+  all_consuming(is_valid)(line).is_ok()
+}
+
 #[cfg(test)]
 mod tests {
   use crate::*;

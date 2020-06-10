@@ -2,6 +2,7 @@ use crate::{span_list, Result, Span};
 use nom::{
   branch::alt,
   bytes::complete::{tag, take_until},
+  character::complete::char,
 };
 
 #[derive(Debug, PartialEq)]
@@ -12,6 +13,7 @@ pub enum SemanticSpan<'a> {
   Subscript(Vec<Span<'a>>),
   Superscript(Vec<Span<'a>>),
   Underline(Vec<Span<'a>>),
+  Linebreak,
 }
 
 pub(crate) fn semantic_span(input: &str) -> Result<SemanticSpan> {
@@ -23,6 +25,7 @@ pub(crate) fn semantic_span(input: &str) -> Result<SemanticSpan> {
     underline,
     superscript,
     subscript,
+    linebreak,
   ))(input)
 }
 
@@ -34,6 +37,7 @@ pub(crate) fn starts_with_sematic_span(input: &str) -> bool {
     || expect_underline(input).is_ok()
     || expect_superscript(input).is_ok()
     || expect_subscript(input).is_ok()
+    || starts_with_linebreak(input)
 }
 
 macro_rules! semantic_span {
@@ -70,6 +74,17 @@ semantic_span!(delete2, expect_delete2, "--", Delete);
 semantic_span!(underline, expect_underline, "__", Underline);
 semantic_span!(superscript, expect_superscript, "^^", Superscript);
 semantic_span!(subscript, expect_subscript, ",,", Subscript);
+
+fn linebreak(input: &str) -> Result<SemanticSpan> {
+  let (input, _) = char('\n')(input)?;
+  let span = SemanticSpan::Linebreak;
+
+  Ok((input, span))
+}
+
+fn starts_with_linebreak(input: &str) -> bool {
+  input.starts_with('\n')
+}
 
 #[cfg(test)]
 mod tests {

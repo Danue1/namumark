@@ -8,7 +8,10 @@ pub(crate) fn blockquote(input: &str) -> Result<MultilineBlock> {
   let mut index = 0;
   let mut block_list = vec![];
 
-  for line in input.lines().take_while(|&line| starts_with_quote(line)) {
+  for line in input
+    .lines()
+    .take_while(|&line| starts_with_blockquote(line))
+  {
     index += line.len() + 1;
     let line = whitespace(&line[1..]);
     if let Ok((_, block)) = alt((list, indent, blockquote, paragraph))(line) {
@@ -28,7 +31,7 @@ fn expect_blockquote(input: &str) -> Result {
   Ok((input, ()))
 }
 
-fn starts_with_quote(input: &str) -> bool {
+pub(crate) fn starts_with_blockquote(input: &str) -> bool {
   input.starts_with('>')
 }
 

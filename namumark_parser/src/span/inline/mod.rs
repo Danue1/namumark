@@ -3,8 +3,15 @@ use crate::Result;
 
 pub(crate) fn inline(input: &str) -> Result<&str> {
   let mut index = 0;
-  while index < input.len() && !starts_with_span(&input[index..]) {
-    index += 1;
+  while index < input.len() {
+    if let Some(slice) = input.get(index..) {
+      if starts_with_span(slice) {
+        break;
+      }
+      index += slice.chars().next().unwrap().len_utf8();
+    } else {
+      break;
+    }
   }
   let (input, inline) = (&input[index..], &input[..index]);
 

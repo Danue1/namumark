@@ -15,8 +15,8 @@ pub(crate) fn list(input: &str) -> Result<MultilineBlock> {
   alt((unordered_list, ordered_list))(input)
 }
 
-fn starts_with_list(input: &str) -> bool {
-  !input.starts_with(' ') || starts_with_unordered_list(input) || starts_with_ordered_list(input)
+pub(crate) fn starts_with_list(input: &str) -> bool {
+  starts_with_unordered_list(input) || starts_with_ordered_list(input)
 }
 
 fn unordered_list(input: &str) -> Result<MultilineBlock> {
@@ -28,7 +28,7 @@ fn unordered_list(input: &str) -> Result<MultilineBlock> {
     item_list.push(list_item(item))
   }
 
-  while starts_with_list(input) {
+  while input.starts_with(' ') && starts_with_list(input) {
     if let Ok((next_input, _)) = expect_unorder_list(input) {
       let (next_input, cursor) = list_start(next_input)?;
       if cursor.is_some() {
@@ -92,7 +92,7 @@ macro_rules! ordered_list_type {
         item_list.push(list_item(item))
       }
 
-      while starts_with_list(input) {
+      while input.starts_with(' ') && starts_with_list(input) {
         if let Ok((next_input, _)) = $expect_with_name(input) {
           let (next_input, cursor) = list_start(next_input)?;
           if cursor.is_some() {
@@ -195,7 +195,7 @@ fn list_item_line(input: &str) -> (&str, &str) {
     } else if input[index..].starts_with('\n') {
       break;
     } else {
-      index += 1;
+      index += input[index..].chars().next().unwrap().len_utf8();
     }
   }
 
