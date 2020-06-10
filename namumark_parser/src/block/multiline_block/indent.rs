@@ -4,8 +4,9 @@ use nom::character::complete::char;
 pub(crate) fn indent(input: &str) -> Result<MultilineBlock> {
   let (input, _) = expect_indent(input)?;
   let (input, line) = line_with_bracket(input);
+  let block = MultilineBlock::Indent(multiline_block_list(line));
 
-  Ok((input, MultilineBlock::Indent(multiline_block_list(line))))
+  Ok((input, block))
 }
 
 fn expect_indent(input: &str) -> Result {

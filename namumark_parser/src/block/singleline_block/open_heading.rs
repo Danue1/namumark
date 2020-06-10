@@ -6,12 +6,18 @@ use nom::{
 
 pub(crate) fn open_heading(input: &str) -> Result<SinglelineBlock> {
   let (input, line) = line(input);
-  let (line, level) = start(line)?;
-  let (line, _) = end(line, level)?;
+  let (line, level) = parens(line)?;
   let span_list = span_list(line);
   let block = SinglelineBlock::OpenHeading(span_list, level.into());
 
   Ok((input, block))
+}
+
+fn parens(input: &str) -> Result<usize> {
+  let (input, level) = start(input)?;
+  let (input, _) = end(input, level)?;
+
+  Ok((input, level))
 }
 
 fn start(input: &str) -> Result<usize> {
@@ -28,6 +34,12 @@ fn end(input: &str, level: usize) -> Result {
   let _ = count(char('='), level)(tail)?;
 
   Ok((input, ()))
+}
+
+pub(crate) fn starts_with_open_heading(input: &str) -> bool {
+  let (_, input) = line(input);
+
+  parens(input).is_ok()
 }
 
 #[cfg(test)]
