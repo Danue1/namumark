@@ -1,1 +1,1 @@
-pub(crate) const EMPTY: &'static str = "";
+pub(crate) const EMPTY: &str = "";

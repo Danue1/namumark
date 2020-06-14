@@ -10,8 +10,8 @@ pub(crate) fn color(input: &str) -> Result<BracketSpan> {
 }
 
 pub(crate) fn expect_color(input: &str) -> Result<(&str, &str)> {
-  const LEFT: &'static str = "#";
-  const CODE: &'static str = "0123456789abcdefABCDEF";
+  const LEFT: &str = "#";
+  const CODE: &str = "0123456789abcdefABCDEF";
 
   fn start(input: &str) -> Result<&str> {
     let (input, _) = tag(LEFT)(input)?;

@@ -14,7 +14,7 @@ use size_down::size_down;
 use size_up::size_up;
 use syntax_highlight::syntax_highlight;
 
-const SIZE_LEVEL: &'static str = "12345";
+const SIZE_LEVEL: &str = "12345";
 
 #[derive(Debug, PartialEq)]
 pub enum BracketSpan<'a> {
@@ -47,8 +47,8 @@ pub(crate) fn starts_with_bracket_span(input: &str) -> bool {
 }
 
 fn line_with_bracket(input: &str) -> (&str, Option<&str>) {
-  const START: &'static str = "{{{";
-  const END: &'static str = "}}}";
+  const START: &str = "{{{";
+  const END: &str = "}}}";
 
   let mut range: Option<(usize, usize)> = None;
   let mut index = 0;

@@ -118,11 +118,11 @@ impl From<&str> for Size {
 
     match numeric(source) {
       Ok((input, numeric)) => {
-        if let Ok(_) = is_match(tag("px"), input) {
+        if is_match(tag("px"), input).is_ok() {
           Size::Pixel(numeric)
-        } else if let Ok(_) = is_match(tag("rem"), input) {
+        } else if is_match(tag("rem"), input).is_ok() {
           Size::Rem(numeric)
-        } else if let Ok(_) = is_match(tag("%"), input) {
+        } else if is_match(tag("%"), input).is_ok() {
           Size::Percent(numeric)
         } else {
           Size::Numeric(numeric)

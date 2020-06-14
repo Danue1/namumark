@@ -42,8 +42,8 @@ pub(crate) fn line(input: &str) -> (&str, &str) {
 }
 
 pub(crate) fn line_with_bracket(input: &str) -> (&str, &str) {
-  const START: &'static str = "{{{";
-  const END: &'static str = "}}}";
+  const START: &str = "{{{";
+  const END: &str = "}}}";
 
   let mut range: Option<(usize, usize)> = None;
   let mut index = 0;
@@ -64,7 +64,7 @@ pub(crate) fn line_with_bracket(input: &str) -> (&str, &str) {
           if index_stack.is_empty() {
             let input = &input[index..];
             if let Some(bracket_index) = input.find(START) {
-              if let Some(_) = input[..bracket_index].find('\n') {
+              if input[..bracket_index].find('\n').is_some() {
                 break;
               }
             }

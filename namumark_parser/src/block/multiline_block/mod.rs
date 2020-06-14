@@ -40,8 +40,13 @@ impl<'a> ListItem<'a> {
   pub fn iter(&self) -> std::slice::Iter<MultilineBlock<'a>> {
     self.0.iter()
   }
+}
 
-  pub fn into_iter(self) -> std::vec::IntoIter<MultilineBlock<'a>> {
+impl<'a> IntoIterator for ListItem<'a> {
+  type Item = MultilineBlock<'a>;
+  type IntoIter = std::vec::IntoIter<Self::Item>;
+
+  fn into_iter(self) -> Self::IntoIter {
     self.0.into_iter()
   }
 }

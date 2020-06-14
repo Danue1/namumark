@@ -9,7 +9,7 @@ use nom::{
   combinator::opt,
 };
 
-const UNORDERED_LIST: &'static str = " *";
+const UNORDERED_LIST: &str = " *";
 
 pub(crate) fn list(input: &str) -> Result<MultilineBlock> {
   alt((unordered_list, ordered_list))(input)

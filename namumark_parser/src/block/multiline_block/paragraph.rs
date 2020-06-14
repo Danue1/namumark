@@ -23,22 +23,18 @@ fn line(input: &str) -> (&str, &str) {
       } else if slice.starts_with('\n') {
         index += 1;
       } else {
-        loop {
-          if let Some(next_line) = input.get(index..) {
-            if let Some(line) = next_line.lines().next() {
-              if let Some(bracket_index) = line.find("{{{") {
-                index += bracket_index;
-                let (_, bracket_line) = line_with_bracket(&input[index..]);
-                index += bracket_line.len();
-              } else {
-                index += line.len();
-                break;
-              }
+        while let Some(next_line) = input.get(index..) {
+          if let Some(line) = next_line.lines().next() {
+            if let Some(bracket_index) = line.find("{{{") {
+              index += bracket_index;
+              let (_, bracket_line) = line_with_bracket(&input[index..]);
+              index += bracket_line.len();
             } else {
-              index += 1;
+              index += line.len();
               break;
             }
           } else {
+            index += 1;
             break;
           }
         }

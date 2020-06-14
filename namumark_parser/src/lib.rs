@@ -1,3 +1,4 @@
+#![warn(clippy::all)]
 mod block;
 mod constants;
 mod span;
