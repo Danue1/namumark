@@ -4,7 +4,7 @@ mod constants;
 mod span;
 mod utils;
 
-use block::multiline_block_list;
+pub(crate) use block::multiline_block_list;
 pub use block::{
   block_list as parse, Block, HeadingLevel, ListIndex, ListItem, MultilineBlock, SinglelineBlock,
 };

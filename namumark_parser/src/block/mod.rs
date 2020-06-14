@@ -3,6 +3,7 @@ mod singleline_block;
 
 use crate::Result;
 use multiline_block::multiline_block;
+pub(crate) use multiline_block::multiline_block_list;
 pub use multiline_block::{ListIndex, ListItem, MultilineBlock};
 use singleline_block::singleline_block;
 pub use singleline_block::{HeadingLevel, SinglelineBlock};
@@ -35,19 +36,4 @@ fn block(input: &str) -> Result<Block> {
 
     Ok((input, Block::Multiline(block)))
   }
-}
-
-pub(crate) fn multiline_block_list(input: &str) -> Vec<MultilineBlock> {
-  let mut input = input;
-  let mut block_list = vec![];
-
-  while let Ok((next_input, block)) = multiline_block(input) {
-    block_list.push(block);
-    if next_input.is_empty() {
-      break;
-    }
-    input = next_input;
-  }
-
-  block_list
 }

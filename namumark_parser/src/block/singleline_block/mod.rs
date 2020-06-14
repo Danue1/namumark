@@ -36,7 +36,7 @@ impl From<usize> for HeadingLevel {
       4 => Four,
       5 => Five,
       6 => Six,
-      _ => std::unreachable!(),
+      _ => unsafe { std::hint::unreachable_unchecked() },
     }
   }
 }

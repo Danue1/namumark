@@ -1,5 +1,6 @@
 use crate::{line, span_list, Result, SinglelineBlock};
 use nom::{
+  bytes::complete::tag,
   character::complete::char,
   multi::{count, fold_many_m_n},
 };
@@ -16,8 +17,7 @@ pub(crate) fn closed_heading(input: &str) -> Result<SinglelineBlock> {
 
 fn start(input: &str) -> Result<usize> {
   let (input, level) = fold_many_m_n(1, 6, char('='), 0, |level, _| level + 1)(input)?;
-  let (input, _) = char('#')(input)?;
-  let (input, _) = char(' ')(input)?;
+  let (input, _) = tag("# ")(input)?;
 
   Ok((input, level))
 }
@@ -25,8 +25,7 @@ fn start(input: &str) -> Result<usize> {
 fn end(input: &str, level: usize) -> Result {
   let marker_position = input.len() - level - 2;
   let (input, tail) = (&input[..marker_position], &input[marker_position..]);
-  let (tail, _) = char(' ')(tail)?;
-  let (tail, _) = char('#')(tail)?;
+  let (tail, _) = tag(" #")(tail)?;
   let _ = count(char('='), level)(tail)?;
 
   Ok((input, ()))

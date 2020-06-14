@@ -79,7 +79,7 @@ impl From<usize> for FontSizeLevel {
       3 => Three,
       4 => Four,
       5 => Five,
-      _ => std::unreachable!(),
+      _ => unsafe { std::hint::unreachable_unchecked() },
     }
   }
 }

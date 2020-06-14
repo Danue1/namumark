@@ -1,7 +1,7 @@
-mod blockquote;
-mod horizontal_rule;
+pub(crate) mod blockquote;
+pub(crate) mod horizontal_rule;
 mod indent;
-mod list;
+pub(crate) mod list;
 mod paragraph;
 
 use crate::{Result, Span};
@@ -53,4 +53,19 @@ impl<'a> IntoIterator for ListItem<'a> {
 
 pub(crate) fn multiline_block(input: &str) -> Result<MultilineBlock> {
   alt((list, indent, horizontal_rule, blockquote, paragraph))(input)
+}
+
+pub(crate) fn multiline_block_list(input: &str) -> Vec<MultilineBlock> {
+  let mut input = input;
+  let mut block_list = vec![];
+
+  while let Ok((next_input, block)) = multiline_block(input) {
+    block_list.push(block);
+    if next_input.is_empty() {
+      break;
+    }
+    input = next_input;
+  }
+
+  block_list
 }
